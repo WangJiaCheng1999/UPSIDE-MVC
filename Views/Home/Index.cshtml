@@ -1,8 +1,145 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    ViewBag.Title = "UPSIDE Home";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <p></p>
+    <p></p>
+    <p></p>
+
+    <script>
+        //Data binding
+        var data = [100, 200, 300];
+        var paragraph = d3.select("body")
+            .selectAll("p")
+            .data(data)
+            .text(function (d, i) {
+                return i;
+            });
+    </script>
+       
 </div>
+
+<div class="text-center" id="ani">
+    <p class="hh">Error: This is error.</p>
+    <p class="hh">Warning:This is warning.</p>
+    <p class="hh">1</p>
+
+    <script>
+        //Mouse Event
+        d3.selectAll(".hh")
+          .on("mouseover", function () {
+            d3.select(this)
+            .text("OVER")
+          })
+          .on("mouseout", function () {
+            d3.select(this)
+            .text("OUT")
+          })
+
+        //SVG and delay and ease animation
+    var svg = d3.select("#ani")
+        .append("svg")
+        .attr("width", 500)
+        .attr("height", 500)
+
+
+    var bar1 = svg.append("rect")
+        .attr("fill", "blue")
+        .attr("x", 50)
+        .attr("y", 20)
+        .attr("height", 20)
+        .attr("width", 10)
+
+    var bar2 = svg.append("rect")
+        .attr("fill", "blue")
+        .attr("x", 120)
+        .attr("y", 20)
+        .attr("height", 20)
+        .attr("width", 10)
+
+    update();
+
+function update() {
+    bar1.transition()
+        .ease(d3.easeLinear)
+        .duration(2000)
+        .attr("height",100)
+
+    bar2.transition()
+        .ease(d3.easeLinear)
+        .duration(2000)
+        .delay(2000)
+        .attr("height",100)
+}
+</script>
+</div>
+
+<div id="dataBinding">
+    <p>D3 Tutorials</p>
+    <p>asdasdas</p>
+    <p>xcxzczx</p>
+    <script>
+        //Data binding
+        var myData = ["Hello World!","Hello Hell!","NOOOOOOOOOOOOOOOOO!"];
+
+        var p = d3.select("#dataBinding")
+            .selectAll("p")
+            .data(myData)
+            .text(function (d, i) {
+                if (i > 1) {
+                    return d;
+                } else {
+                    return "123";
+                }
+                
+            });
+    </script>
+</div>
+
+
+<div id="enterFunction">
+    <script>
+        var data = [1, 2, 3, 4, 5]
+
+        var body = d3.select("#enterFunction")
+            .selectAll("p")
+            .data(data)
+            .enter()
+            .append("p")
+        //.text(function (d) {
+        //    return d;
+        //})
+
+    </script>
+
+    <script>
+        var matrix = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+            [13, 14, 15, 16]
+        ];
+
+        var tr = d3.select("body")
+            .append("table")  // adds <table>
+            .selectAll("tr")  // selects all <tr>
+            .data(matrix)      // joins matrix array
+            .enter()           // create placeholders for each row in the array
+            .append("tr");// create <tr> in each placeholder
+
+        var td = tr.selectAll("td")
+            .data(function (d) {    // joins inner array of each row
+                console.log(d);
+                return d;
+            })
+            .enter()    // create placeholders for each element in an inner array
+            .append("td") // creates <td> in each placeholder
+            .text(function (d) {
+                console.log(d);
+                return d; // add value of each inner array as a text in <td>
+            });
+    </script>
+</div>
+
+

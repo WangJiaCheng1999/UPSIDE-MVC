@@ -23,14 +23,17 @@ namespace MvcTest.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        //Open Unity application
         public void OpenUnity()
         {
             Process.Start("C:/Users/Administrator/Desktop/UnityExperiment.exe");
+        }
+
+        [HttpGet]
+        public void PostJSONData(String Jdata)
+        {
+           Console.WriteLine(123);
+            Debug.WriteLine(Jdata);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

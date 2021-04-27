@@ -24,6 +24,7 @@ namespace MvcTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,13 +40,17 @@ namespace MvcTest
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
+
+            //Allow to use wwroot files
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
+            //Default page
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
