@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using MvcTest.Models;
@@ -14,10 +16,20 @@ namespace MvcTest.Controllers
 {
     public class HomeController : Controller
     {
-
+        public HomeController(IConfiguration config)
+        {
+            this.configuration = config;
+        }
+        private readonly IConfiguration configuration;
 
         public IActionResult Index()
         {
+            string connectionstring = configuration.GetConnectionString("DefaultConnectionString");
+            SqlConnection connection = new SqlConnection(connectionstring);
+            connection.Open();
+            SqlCommand com = new SqlCommand("Select count(*) from EmployeeDetails", connection);
+            var count = (int)com.ExecuteScalar();
+            ViewData["TotalData"] = count;
             return View();
         }
 
