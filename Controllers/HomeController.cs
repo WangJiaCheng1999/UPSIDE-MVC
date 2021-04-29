@@ -20,7 +20,7 @@ namespace MvcTest.Controllers
         {
             this.configuration = config;
         }
-        private readonly IConfiguration configuration;
+        public readonly IConfiguration configuration;
 
         public IActionResult Index()
         {
