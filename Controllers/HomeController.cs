@@ -23,6 +23,11 @@ namespace MvcTest.Controllers
             return View();
         }
 
+        public IActionResult DataPage()
+        {
+            return View();
+        }
+
         //Open Unity application
         public void OpenUnity()
         {

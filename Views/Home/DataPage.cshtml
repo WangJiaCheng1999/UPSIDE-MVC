@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "DataPage";
+}
+
+<h1>DataPage</h1>
+
+<div class="barchart">
+    <svg id="barchart1"></svg>
+</div>
+
+<script>
+    var svgWidth = 400;
+    var svgHeight = 400;
+    
+    var data = [100, 200, 300, 150]
+
+    var barchartSvg = d3.select(".barchart")
+        .select("#barchart1")
+        .attr("width", svgWidth)
+        .Height("height", svgHeight);
+
+    var barchart = svg.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr()
+
+</script>
+
+
