@@ -28,11 +28,18 @@ namespace MvcTest.Controllers
             return View();
         }
 
+        public IActionResult IntroView()
+        {
+            return View();
+        }
+
         //Open Unity application
         public void OpenUnity()
         {
             Process.Start("C:/Users/Administrator/Desktop/UnityExperiment.exe");
         }
+
+        
 
         [HttpGet]
         public void PostJSONData(String Jdata)
