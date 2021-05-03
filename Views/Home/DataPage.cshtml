@@ -3,29 +3,59 @@
     ViewData["Title"] = "DataPage";
 }
 
-<h1>DataPage</h1>
-
 <div class="barchart">
     <svg id="barchart1"></svg>
+
 </div>
 
 @*Barchart*@
 <script>
+    //Set Graph's hight and width
     var svgWidth = 400;
     var svgHeight = 400;
+    var svgX = 100;
+    var svgY = 100;
     
-    var data = [100, 200, 300, 150]
+    var barWidth = 40;
+    
+    
+    var data = [1000, 2000, 3000, 1500, 7900, 5005]
 
+    //Set the scale of the Barchart's number
+    var scale = d3.scaleLinear([0, d3.max(data)], [0, svgWidth * 0.9]);
+
+    //Select the svg that will hold the barchart by id
     var barchartSvg = d3.select(".barchart")
         .select("#barchart1")
         .attr("width", svgWidth)
-        .Height("height", svgHeight);
+        .attr("height", svgHeight)
+        .attr("transform", "translate(" + svgX + "," + svgY + ")");
 
-    var barchart = svg.selectAll("rect")
+
+    //Creat each bar using rectangle
+    var barchart = barchartSvg.selectAll("rect")
         .data(data)
         .enter()
         .append("rect")
-        .attr()
+        .attr("width", function (d, i) {
+            return 10;
+        })
+        .attr("height", function (d, i) {
+            return scale(d);
+        })
+        .attr("transform", function (d, i) {
+            var h = svgHeight - scale(d);
+            return "translate(" + barWidth * i + "," + h + ")";
+        });
+
+    var scaleX = d3.scaleLinear([d3.min(data), d3.max(data)], [0, 350]);
+    var xAxis = d3.axisBottom()
+        .scale(scaleX);
+
+    barchartSvg.append("g")
+        .attr("transform", "translate(0 0)")
+        .call(xAxis);
+        
 </script>
 
 @*Boxplot*@
@@ -33,7 +63,7 @@
 
 </script>
 
-@*PieChart*@
+@*PieChart(YiFei)*@
 <script>
 
 </script>
