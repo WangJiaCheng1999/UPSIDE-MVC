@@ -128,22 +128,16 @@ function update() {
             .enter()           // create placeholders for each row in the array
             .append("tr");// create <tr> in each placeholder
 
-        function checkRows() {
-            console.log(tr);
-        }
-        checkRows();
 
         
 
         var td = tr.selectAll("td")
             .data(function (d) {    // joins inner array of each row
-                console.log(d);
                 return d;
             })
             .enter()    // create placeholders for each element in an inner array
             .append("td") // creates <td> in each placeholder
             .text(function (d) {
-                console.log(d);
                 return d; // add value of each inner array as a text in <td>
             });
     </script>

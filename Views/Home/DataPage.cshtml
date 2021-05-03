@@ -2,24 +2,30 @@
 @{
     ViewData["Title"] = "DataPage";
 }
-
 <div class="barchart">
     <svg id="barchart1"></svg>
-
 </div>
 
-@*Barchart*@
+@*Barchart script*@
 <script>
+
+    $.getJSON("https://localhost:5001/JData/Round3.json", function (data) {
+        console.log(data);
+    });
+
+
+    var data = [100, 200, 300, 150, 790, 505];
+
     //Set Graph's hight and width
-    var svgWidth = 400;
-    var svgHeight = 400;
-    var svgX = 100;
-    var svgY = 100;
-    
-    var barWidth = 40;
-    
-    
-    var data = [1000, 2000, 3000, 1500, 7900, 5005]
+    var svgWidth = 500;
+    var svgHeight = 500;
+    var svgX = 0;
+    var svgY = 0;
+
+    //The width of each bar and gap between them
+    var barGap = 40;
+    var barwidth = 10;
+
 
     //Set the scale of the Barchart's number
     var scale = d3.scaleLinear([0, d3.max(data)], [0, svgWidth * 0.9]);
@@ -38,23 +44,28 @@
         .enter()
         .append("rect")
         .attr("width", function (d, i) {
-            return 10;
+            return barwidth;
         })
         .attr("height", function (d, i) {
             return scale(d);
         })
         .attr("transform", function (d, i) {
-            var h = svgHeight - scale(d);
-            return "translate(" + barWidth * i + "," + h + ")";
+            var h = svgHeight - scale(d) - 20;
+            return "translate(" + barGap * i + "," + h + ")";
         });
 
-    var scaleX = d3.scaleLinear([d3.min(data), d3.max(data)], [0, 350]);
+    //Set X Axis
+    var scaleX = d3.scaleLinear([1, data.length], [0, 400]);
     var xAxis = d3.axisBottom()
-        .scale(scaleX);
+        .scale(scaleX)
+        .ticks(data.length, "s");
 
+    //Append to barchart
     barchartSvg.append("g")
-        .attr("transform", "translate(0 0)")
+        .attr("transform", "translate(0,482)")
         .call(xAxis);
+
+    d3.selectAll("g.tick").select("line").style("color", "red");
         
 </script>
 
