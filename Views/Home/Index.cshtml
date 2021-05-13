@@ -18,15 +18,23 @@
             </thead>
 
             <tbody>
-                              <tr>
-                                <td>Round</td>
-                                <td>Success</td>
-                                <td>OverTime</td>
-                                <td>TimeUse</td>
-                                <td>ImageType</td>
-                                <td>ImageDetail</td>
+                @{
+                    if (Model != null)
+                    {
+                        foreach (var Data in Model)
+                        {
+
+                            <tr>
+                                <td>@Data.Round</td>
+                                <td>@Data.Success</td>
+                                <td>@Data.OverTime</td>
+                                <td>@Data.TimeUse</td>
+                                <td>@Data.ImageType</td>
+                                <td>@Data.ImageDetail</td>
                             </tr>
-              
+                        }
+                    }
+                }
             </tbody>
         </table>
     </div>
