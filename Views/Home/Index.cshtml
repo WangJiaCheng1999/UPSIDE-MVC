@@ -1,7 +1,66 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+    <style>
 
+.arc text {
+    font: 16px arial;
+    text-anchor: middle;
+}
+
+.arc path {
+    stroke: #fff;
+}
+
+.title {
+    font: 20px arial;
+    fill: darkblue;
+    font-weight: bold;
+}
+
+.line {
+    fill: none;
+    stroke: blueviolet;
+    stroke-width: 3px;
+}
+
+.bar {
+    fill: lightblue;
+}
+
+.highlight {
+    fill: red;
+}
+
+.title {
+    fill: blue;
+    font-weight: bold;
+}
+
+svg rect {
+    fill: steelblue;
+}
+
+svg text {
+    fill: black;
+    font: 12px sans-serif;
+    text-anchor: end;
+}
+
+
+.column {
+    float: left;
+    width: 33%;
+}
+
+.h2{
+    left:10px;
+}
+
+
+
+
+    </style>
     <h3>Total Data:@ViewData["TotalData"]</h3>
     <div class="table">
         <table>
