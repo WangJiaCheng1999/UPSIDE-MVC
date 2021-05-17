@@ -2,24 +2,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <p></p>
-    <p></p>
-    <p></p>
-
-    <script>
-        //Data binding
-        var data = [100, 200, 300];
-        var paragraph = d3.select("body")
-            .selectAll("p")
-            .data(data)
-            .text(function (d, i) {
-                return i;
-            });
-    </script>
-       
-</div>
-
 <div class="text-center" id="ani">
     <p class="hh">Error: This is error.</p>
     <p class="hh">Warning:This is warning.</p>
@@ -75,27 +57,6 @@ function update() {
 </script>
 </div>
 
-<div id="dataBinding">
-    <p>D3 Tutorials</p>
-    <p>asdasdas</p>
-    <p>xcxzczx</p>
-    <script>
-        //Data binding
-        var myData = ["Hello World!","Hello Hell!","NOOOOOOOOOOOOOOOOO!"];
-
-        var p = d3.select("#dataBinding")
-            .selectAll("p")
-            .data(myData)
-            .text(function (d, i) {
-                if (i > 1) {
-                    return d;
-                } else {
-                    return "123";
-                }
-                
-            });
-    </script>
-</div>
 
 
 <div id="enterFunction">
@@ -107,9 +68,6 @@ function update() {
             .data(data)
             .enter()
             .append("p")
-        //.text(function (d) {
-        //    return d;
-        //})
 
     </script>
 
