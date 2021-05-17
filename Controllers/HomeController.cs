@@ -16,47 +16,12 @@ namespace MvcTest.Controllers
 {
     public class HomeController : Controller
     {
-        List<DataFromSQL> dateFromSQLs = new List<DataFromSQL>();
-        public HomeController(IConfiguration config)
-        {
-            this.configuration = config;
-        }
-        private readonly IConfiguration configuration;
-
-        // Display the stored SQLSERVER data 
+       
         public IActionResult Index()
         {
-            FetchDate();
-            return View(dateFromSQLs);
+           
+            return View();
         }
-        // get the data from SQL SERVER
-        private void FetchDate()
-        {
-            try
-            {
-                string connectionstring = configuration.GetConnectionString("DefaultConnectionString");
-                SqlConnection connection = new SqlConnection(connectionstring);
-                connection.Open();
-                //SqlCommand com = new SqlCommand("Select count(*) from EmployeeDetails", connection);
-                SqlCommand com = new SqlCommand("SELECT TOP (1000) [Round],[Success],[OverTime],[TimeUse],[ImageType],[ImageDetail] FROM [UPSIDEDb].[dbo].[Experiments]", connection);
-                //var count = (int)com.ExecuteScalar();
-                //ViewData["TotalData"] = count;
-                SqlDataReader reader;
-                reader = com.ExecuteReader();
-                while (reader.Read())
-                {
-                    dateFromSQLs.Add(new DataFromSQL() { Round = reader["Round"].ToString(), Success = reader["Success"].ToString(), OverTime = reader["OverTime"].ToString(), TimeUse = reader["TimeUse"].ToString(), ImageType = reader["ImageType"].ToString(), ImageDetail = reader["ImageDetail"].ToString(), });
-                }
-                connection.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-
-            }
-
-        }
-
         public IActionResult DataPage()
         {
             return View();
@@ -229,5 +194,45 @@ namespace MvcTest.Controllers
    
 
     }
-   
+    //List<DataFromSQL> dateFromSQLs = new List<DataFromSQL>();
+    //public HomeController(IConfiguration config)
+    //{
+    //    this.configuration = config;
+    //}
+    //private readonly IConfiguration configuration;
+
+    // Display the stored SQLSERVER data 
+    //public IActionResult Index()
+    //{
+    //    FetchDate();
+    //    return View(dateFromSQLs);
+    //}
+    // get the data from SQL SERVER
+    //private void FetchDate()
+    //{
+    //    try
+    //    {
+    //        string connectionstring = configuration.GetConnectionString("DefaultConnectionString");
+    //        SqlConnection connection = new SqlConnection(connectionstring);
+    //        connection.Open();
+    //        //SqlCommand com = new SqlCommand("Select count(*) from EmployeeDetails", connection);
+    //        SqlCommand com = new SqlCommand("SELECT TOP (1000) [Round],[Success],[OverTime],[TimeUse],[ImageType],[ImageDetail] FROM [UPSIDEDb].[dbo].[Experiments]", connection);
+    //        //var count = (int)com.ExecuteScalar();
+    //        //ViewData["TotalData"] = count;
+    //        SqlDataReader reader;
+    //        reader = com.ExecuteReader();
+    //        while (reader.Read())
+    //        {
+    //            dateFromSQLs.Add(new DataFromSQL() { Round = reader["Round"].ToString(), Success = reader["Success"].ToString(), OverTime = reader["OverTime"].ToString(), TimeUse = reader["TimeUse"].ToString(), ImageType = reader["ImageType"].ToString(), ImageDetail = reader["ImageDetail"].ToString(), });
+    //        }
+    //        connection.Close();
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw ex;
+
+    //    }
+
+    //}
+
 }
