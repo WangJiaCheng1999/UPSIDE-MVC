@@ -11,10 +11,13 @@
 
 <script language=javascript src="https://localhost:5001/js/CalculationFactory.js"></script>;
 <script>
+
+
     //Maps that save each round's data
     let aveTimeUse = new Map();
     let eachTimeUse = new Map();
-    let eachImage = new Map();
+    let aveAccuracy = new Map();
+    let eachAccuracy = new Map();
 
     //Iterate through all the JSON data and save the experimental data to the map
     for (var i = 1; i < 4; i++) {
@@ -37,12 +40,12 @@
         });
     }
 
-    //Calculate the average time spent for each experiment
+    //Calculate the average time spent for each experiment and add the result into the aveTimeUse map
     for (let m of eachTimeUse) {
-        console.log(aveCal(m[1])); 
+        aveTimeUse.set(m[0], aveCal(m[1]));
     }
-
- 
+    console.log(aveTimeUse);
+    console.log("Fastest round is :"+findBiggestValue(aveTimeUse));
 
 
     var data = [100, 200, 300, 400];
