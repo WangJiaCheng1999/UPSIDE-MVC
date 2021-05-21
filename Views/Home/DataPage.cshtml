@@ -12,7 +12,7 @@
 
 
 <script>
-    //Maps that save each round's differnent types of experiment data
+    //Maps that save each round's different types of experiment data
 
     let aveTimeUse = new Map();
     let eachTimeUse = new Map();
@@ -20,47 +20,18 @@
     let aveAccuracy = new Map();
     let eachAccuracy = new Map();
 
-    var jsonData = getAllData(3);
-    console.log(jsonData);
-    var eachRoundInfor = Array.from(jsonData.values());
-    console.log(eachRoundInfor);   
-    var result = new Map(eachRoundInfor.map(key => [key.sid, key.name])); 
-    console.log(result);
+    let allData = getAllData(3);
 
-    for (var i = 0; i < getMapLength(jsonData); i++) {
-        var actualRound = i + 1;
-        var Round = "Round" + actualRound;
-        console.log(Round);
-    }
-
-
-    //Iterate through all the JSON data and save the experimental data to the map
-    for (var i = 1; i < 4; i++) {
-        $.ajax({
-            type: "GET",
-            url: "https://localhost:5001/JData/Round" + i + ".json",
-            cache: false,
-            async: false,
-            success: function (data) {
-                var Round = "Round" + i;
-                var timeUseList = new Array();
-                for (var j = 0; j < data.length; j++) {
-                    timeUseList.push(data[j].TimeUse);
-                }
-                eachTimeUse.set(Round, timeUseList);
-            },
-            error: function () {
-                console.log("JSON data may not found.")
-            }
-        });
+    for(let i = 0; i < allData.size; i++){
+        console.log(i);
     }
 
     //Calculate the average time spent for each experiment and add the result into the aveTimeUse map
     for (let m of eachTimeUse) {
         aveTimeUse.set(m[0], aveCal(m[1]));
     }
-    console.log(aveTimeUse);
-    console.log("Fastest round is :" + findBiggestValue(aveTimeUse));
+    // console.log(aveTimeUse);
+    // console.log("Fastest round is :" + findBiggestValue(aveTimeUse));
 
 
     var data = Array.from(aveTimeUse.values());
@@ -104,8 +75,8 @@
         });
 
     //Set X Axis
-    var scaleX = d3.scaleLinear([1, data.length], [0, 400]);
-    var xAxis = d3.axisBottom()
+    let scaleX = d3.scaleLinear([1, data.length], [0, 400]);
+    let xAxis = d3.axisBottom()
         .scale(scaleX)
         .ticks(data.length, "s");
 
