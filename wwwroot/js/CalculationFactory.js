@@ -47,6 +47,44 @@ function findBiggestValue(map) {
 }
 
 //Median calculation
-function medCal() {
+function medCal(map) {
 
+}
+
+//Get JSON Data from WWWroot and return the data in a Map
+function getAllData(TotalRound) {
+    var dataList = new Map();
+    var singleRoundInfor = new Map();
+    //Iterate through all the JSON data and save the experimental data to the map
+    for (var i = 1; i < TotalRound + 1; i++) {
+        $.ajax({
+            type: "GET",
+            url: "https://localhost:5001/JData/Round" + i + ".json",
+            cache: false,
+            async: false,
+            success: function (data) {
+                var Round = "Round" + i;
+                for (var j = 0; j < data.length; j++) {
+                    timeUseList.push(data[j].TimeUse);
+                }
+                dataList.set(Round, data);
+            },
+            error: function () {
+                console.log("JSON data may not found.")
+            }
+        });
+    }
+
+    return dataList;
+}
+
+//Get the length of a Map
+function getMapLength(map) {
+    var length = 0;
+
+    for (let m of map.entries()) {
+        length++;
+    }
+
+    return length;
 }
