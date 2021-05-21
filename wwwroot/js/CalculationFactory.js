@@ -1,19 +1,31 @@
 ﻿
-//Average calculation
-//values should be an array
+//Average calculation, values should be an array
 function aveCal(values) {
     let total = 0;
     for (let i = 0; i < values.length; i++) {
         total += values[i];
     }
-    return total / values.length;   
-
+    return total / values.length;
+    
 }
 
-//Median calculation
-function medCal(map) {
-
+//Get the Average time used in each round
+function getAveTimeUseMap(allData) {
+    let round = 1;
+    let aveTimeUseMap = new Map();
+    
+    for(value of allData.values()) {
+        let timeUseArray = [];
+        for (let m of value) {
+            timeUseArray.push(m.get("TimeUse"));
+        }
+        aveTimeUseMap.set("Round" + round, aveCal(timeUseArray));
+        round++;
+    }
+    return aveTimeUseMap;
 }
+
+
 
 //Get JSON Data from root and return the data in a Map
 function getAllData(TotalRound) {
@@ -48,3 +60,5 @@ function getAllData(TotalRound) {
 
     return dataList;
 }
+
+

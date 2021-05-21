@@ -9,42 +9,26 @@
 <div class="timeUseSummary"></div>
 <div class="correctRateSummary"></div>
 
-
-
 <script>
+    //All data from the JSON files
+    let allData = getAllData(4);
+    
     //Maps that save each round's different types of experiment data
-
-    let aveTimeUse = new Map();
-    let eachTimeUse = new Map();
-
+    let aveTimeUse = getAveTimeUseMap(allData);
     let aveAccuracy = new Map();
-    let eachAccuracy = new Map();
-
-    let allData = getAllData(3);
-
-    for(let i = 0; i < allData.size; i++){
-        console.log(i);
-    }
-
-    //Calculate the average time spent for each experiment and add the result into the aveTimeUse map
-    for (let m of eachTimeUse) {
-        aveTimeUse.set(m[0], aveCal(m[1]));
-    }
-    // console.log(aveTimeUse);
-    // console.log("Fastest round is :" + findBiggestValue(aveTimeUse));
-
-
-    var data = Array.from(aveTimeUse.values());
+    
+        
+    let data = Array.from(aveTimeUse.values());
 
     //Set Graph's hight and width
-    var svgWidth = 500;
-    var svgHeight = 500;
-    var svgX = 0;
-    var svgY = 0;
+    let svgWidth = 500;
+    let svgHeight = 500;
+    let svgX = 0;
+    let svgY = 0;
 
     //The width of each bar and gap between them
-    var barGap = 40;
-    var barwidth = 10;
+    let barGap = 40;
+    let barWidth = 10;
 
 
     //Set the scale of the Barchart's number
@@ -64,7 +48,7 @@
         .enter()
         .append("rect")
         .attr("width", function (d, i) {
-            return barwidth;
+            return barWidth;
         })
         .attr("height", function (d, i) {
             return scale(d);
@@ -93,7 +77,7 @@
 <script>
     //JSONData contains each Round's JSON Data
     var jsonData = getAllData(3);
-    console.log(jsonData);
+    
 </script>
 
 
