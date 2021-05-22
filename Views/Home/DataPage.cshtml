@@ -15,8 +15,9 @@
     
     //Maps that save each round's different types of experiment data
     let aveTimeUse = getAveTimeUseMap(allData);
-    let aveAccuracy = new Map();
-    
+    let aveAccuracy = getAveAccuracyMap(allData);
+
+    console.log(aveAccuracy);
         
     let data = Array.from(aveTimeUse.values());
 
