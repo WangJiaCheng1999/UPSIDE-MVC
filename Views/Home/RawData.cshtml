@@ -3,17 +3,34 @@
 }
 <h2>Please select the round you want to review</h2>
 <select id="dataSelector"></select>
-<div id="dataDisplay">
-    
-</div>
+<div id="dataDisplay"></div>
+
+<style>
+    table {
+        border-spacing: 0;
+        border: 1px solid #c0c0c0;
+        width: 300px;
+    }
+    td {
+        border: 1px solid #d0d0d0;
+        color: #404060;
+        padding: 10px;
+        font: 14px "Lucida Console";
+        text-align: center;
+    }
+</style>
+
 <script>
     let allData = getAllData(4);
     
+    //Add options into the selector
     for (let i = 1; i <= allData.size; i++){    
         let option = "Round" + i;
         $('#dataSelector').append(`<option value="${option}">${option} </option>`); 
         console.log(allData.get(option));
     }
+    
+    showData("Round1");
     
     //Get what options that user selected  
    $("#dataSelector").change(function (round){
@@ -34,7 +51,7 @@
            }
         
         let tr = d3.select("#dataDisplay")
-           .append("table")
+           .append("table")          
            .selectAll("tr")
            .data(dataArray)
            .enter()
@@ -51,5 +68,4 @@
             })
     }
         
-
 </script>

@@ -1,1 +1,20 @@
-﻿
+﻿table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #c0c0c0;
+    width: 300px;
+}
+th,td {
+    border: 1px solid #d0d0d0;
+    color: #404060;
+    padding: 10px;
+}
+th {
+    background-color: #09c;
+    font: bold 16px "Lucida Console";
+    color: #fff;
+}
+td {
+    font: 14px "Lucida Console";
+    text-align: center;
+}
