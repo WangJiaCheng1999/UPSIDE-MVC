@@ -49,7 +49,7 @@ function getAveAccuracyMap(allData) {
         aveAccuracyMap.set("Round" + round, aveAccuracyCal(accuracyArray));
         round++;
     }
-
+    
     return aveAccuracyMap;
 }
 
@@ -81,7 +81,7 @@ function getAllData(TotalRound) {
                 dataList.set(Round, roundsInfo);
             },
             error: function () {
-                console.log("JSON data may not found.")
+                console.log("JSON data not found.")
             }
         });
     }

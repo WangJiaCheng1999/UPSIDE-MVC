@@ -12,11 +12,11 @@
 <script>
     //All data from the JSON files
     let allData = getAllData(4);
-    
+
     //Maps that save each round's different types of experiment data
     let aveTimeUse = getAveTimeUseMap(allData);
     let aveAccuracy = getAveAccuracyMap(allData);
-
+    
     console.log(aveAccuracy);
         
     let data = Array.from(aveTimeUse.values());
@@ -33,10 +33,10 @@
 
 
     //Set the scale of the Barchart's number
-    var scale = d3.scaleLinear([0, d3.max(data)], [0, svgWidth * 0.9]);
+    let scale = d3.scaleLinear([0, d3.max(data)], [0, svgWidth * 0.9]);
 
     //Select the svg that will hold the barchart by id
-    var barchartSvg = d3.select(".barchart")
+    let barchartSvg = d3.select(".barchart")
         .select("#barchart1")
         .attr("width", svgWidth)
         .attr("height", svgHeight)
@@ -44,7 +44,7 @@
 
 
     //Adding bars to the barchart
-    var barchart = barchartSvg.selectAll("rect")
+    let barchart = barchartSvg.selectAll("rect")
         .data(data)
         .enter()
         .append("rect")
@@ -65,6 +65,7 @@
         .scale(scaleX)
         .ticks(data.length, "s");
 
+
     //Append to barchart
     barchartSvg.append("g")
         .attr("transform", "translate(0,482)")
@@ -76,9 +77,10 @@
 
 @*PieChart(YiFei)*@
 <script>
+
     //JSONData contains each Round's JSON Data
-    var jsonData = getAllData(3);
-    
+    var jsonData = getAllData(4);
+
 </script>
 
 

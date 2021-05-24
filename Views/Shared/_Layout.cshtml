@@ -27,18 +27,22 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="OpenUnity">Unity</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DataPage">Data</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DataPage">Data Analyze</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="RawData">Raw Data</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="IntroView">IntroView</a>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3">         
             @RenderBody()
         </main>
     </div>
