@@ -1,4 +1,55 @@
 ﻿@{
     ViewData["Title"] = "RawData";
 }
-<p>Raw Data Here!</p>
+<h2>Please select the round you want to review</h2>
+<select id="dataSelector"></select>
+<div id="dataDisplay">
+    
+</div>
+<script>
+    let allData = getAllData(4);
+    
+    for (let i = 1; i <= allData.size; i++){    
+        let option = "Round" + i;
+        $('#dataSelector').append(`<option value="${option}">${option} </option>`); 
+        console.log(allData.get(option));
+    }
+    
+    //Get what options that user selected  
+   $("#dataSelector").change(function (round){
+       let options = $("#dataSelector option:selected");
+       showData(options.val());
+   });
+   
+   //Show the original data  
+    function showData(round){
+        let data = allData.get(round);
+        
+        let dataArray = [Array.from(data[0].keys())];
+        for (let i = 0; i < data.length; i++){            
+            dataArray.push(Array.from(data[i].values()));
+        }      
+        if ($("#dataDisplay").html() !== null){
+            $("#dataDisplay").html("");
+           }
+        
+        let tr = d3.select("#dataDisplay")
+           .append("table")
+           .selectAll("tr")
+           .data(dataArray)
+           .enter()
+           .append("tr");         
+        
+        let td = tr.selectAll("td")
+            .data(function (d){
+                return d;
+            })
+            .enter()
+            .append("td")
+            .text(function (d){
+                return d;
+            })
+    }
+        
+
+</script>
