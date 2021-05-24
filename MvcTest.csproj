@@ -14,6 +14,7 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Remove="Views\Home\123.cshtml" />
+    <Content Remove="wwwroot\js\AnalyzeFactory.js" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,7 @@
-﻿
+﻿/*
+This class is for data extraction and simple data analysis
+ */
+
 //Average timeUse calculation, values should be an array
 function aveCal(values) {
     let total = 0;
@@ -54,7 +57,7 @@ function getAveAccuracyMap(allData) {
 }
 
 //Return a map that contain the count of different image types in allData and the accuracy of those different
-// types of images
+//types of images
 function getImageAccuracyMap(allData){
     
     let round = 1;
@@ -141,17 +144,22 @@ function getImageAccuracyMap(allData){
     return sum;
 }
 
-
+//Get one round's whole data, this function will return a array that contains 10 maps
+function getSingleRoundData(round,allData){
+    round = "Round"+round;
+    return allData.get(round);
+}
 
 //Get JSON Data from root and return the data in a Map
 function getAllData(TotalRound) {
     let dataList = new Map();
-    
+    let localHost = window.location.protocol + "//"+window.location.host;
+
     //Iterate through all the JSON data on the server and save the data into a map
     for (let i = 1; i < TotalRound + 1; i++) {
         $.ajax({
             type: "GET",
-            url: "https://localhost:5001/JData/Round" + i + ".json",
+            url: localHost+"/JData/Round" + i + ".json",
             cache: false,
             async: false,
             success: function (data) {
@@ -169,7 +177,7 @@ function getAllData(TotalRound) {
                 dataList.set(Round, roundsInfo);
             },
             error: function () {
-                console.log("JSON data not found.")
+                console.log("JSON data not found." + this.url);
             }
         });
     }
