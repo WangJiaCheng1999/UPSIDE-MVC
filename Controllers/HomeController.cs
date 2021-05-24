@@ -33,6 +33,11 @@ namespace MvcTest.Controllers
     
             return View();
         }
+
+        public IActionResult RawData()
+        {
+            return View();
+        }
         //Open Unity application
         public void OpenUnity()
         {

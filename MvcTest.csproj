@@ -13,6 +13,11 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Remove="Views\Home\123.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\Home\123.cshtml.cs" />
   </ItemGroup>
 
 

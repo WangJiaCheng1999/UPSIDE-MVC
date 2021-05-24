@@ -8,11 +8,11 @@ function aveCal(values) {
     return total / values.length;
 }
 
-//Average accuracy calculation,Useful for all data with Brownian values.
+//Average accuracy calculation,Useful for all data with boolean values.
 function aveAccuracyCal(values) {
     let trueCount = 0;
     for (let i = 0; i < values.length; i++) {
-        if (values[i] == true) {
+        if (values[i] === true) {
             trueCount ++;
         } 
     }
@@ -51,6 +51,94 @@ function getAveAccuracyMap(allData) {
     }
     
     return aveAccuracyMap;
+}
+
+//Return a map that contain the count of different image types in allData and the accuracy of those different
+// types of images
+function getImageAccuracyMap(allData){
+    
+    let round = 1;
+    
+    //The count of different types of image
+    let allImageAccuracyMap = new Map();
+    
+    //Percentage of images in which the subjects successfully responded or judged
+    let allImageTypeCountMap = new Map();
+    
+    //The map that will contain both map to return
+    let sum = new Map();
+    
+    for(value of allData.values()){
+        let imageTypeCountMap = new Map();
+        let imageAccuracyMap = new Map();
+        
+        let localImageType = 0;
+        let localAccuracyCount = 0;
+        
+        let globalImageType = 0;
+        let globalAccuracyCount = 0;
+        
+        let neitherImageType = 0;
+        let neitherAccuracyCount = 0;
+        
+        for(let m of value){
+            if(m.get("ImageType") === "Global"){
+                globalImageType++;
+                let a = m.get("Success");
+                if(a){
+                    globalAccuracyCount++;
+                }
+            }
+            if(m.get("ImageType") === "Local"){
+                neitherImageType++;
+                let a = m.get("Success");
+                if(a){
+                    localAccuracyCount++;
+                }
+            }
+            if(m.get("ImageType") === "Neither"){
+                neitherImageType++;
+                let a = m.get("Success");
+                if(a){
+                    neitherAccuracyCount++;
+                }
+            }
+
+        }
+
+        imageTypeCountMap.set("Global",globalImageType);
+        imageTypeCountMap.set("Local",localImageType);
+        imageTypeCountMap.set("Neither",neitherImageType);
+        
+        //In case of the value is Infinity.
+        if(globalImageType !== 0){
+            imageAccuracyMap.set("Global",globalAccuracyCount/globalImageType);
+        }else {
+            imageAccuracyMap.set("Global",0);
+        }
+        
+        if(localImageType !== 0){
+            imageAccuracyMap.set("Local",localAccuracyCount/localImageType);
+        }else {
+            imageAccuracyMap.set("Local", 0);
+        }
+
+        if(neitherImageType !== 0){
+            imageAccuracyMap.set("Neither",neitherAccuracyCount/neitherImageType);
+        }else {
+            imageAccuracyMap.set("Neither", 0);
+        }
+        
+        allImageTypeCountMap.set("Round"+round, imageTypeCountMap);
+        allImageAccuracyMap.set("Round"+round, imageAccuracyMap);
+        
+        round++;
+    }
+    
+    sum.set("Count",allImageTypeCountMap);
+    sum.set("Accuracy", allImageAccuracyMap);
+    
+    return sum;
 }
 
 

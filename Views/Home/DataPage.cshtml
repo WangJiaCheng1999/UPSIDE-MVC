@@ -17,7 +17,9 @@
     let aveTimeUse = getAveTimeUseMap(allData);
     let aveAccuracy = getAveAccuracyMap(allData);
     
-    console.log(aveAccuracy);
+    let imageTypeSummary = getImageAccuracyMap(allData);
+    console.log(imageTypeSummary.get("Count"));
+   
         
     let data = Array.from(aveTimeUse.values());
 
