@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>    
     <!-- Main Statistical and analytical methods-->
-    <script src="~/js/CalculationFactory.js"></script>;
-    <script src="~/js/ChartsCreator.js"></script>;
+    <script src="~/js/CalculationFactory.js"></script>
+    <script src="~/js/ChartsCreator.js"></script>
     <script src="~/lib/D3/d3.min.js"></script>
 
 
@@ -19,7 +19,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+           
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UPSIDE</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -42,14 +42,13 @@
 
                     </ul>
                 </div>
-            </div>
+           
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">         
+        
             @RenderBody()
-        </main>
-    </div>
+      
+
 
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
