@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - UPSIDE</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>    
     <!-- Main Statistical and analytical methods-->
-    <script src="~/js/CalculationFactory.js"></script>;
-    <script src="~/js/ChartsCreator.js"></script>;
+    <script src="~/js/CalculationFactory.js"></script>
+    <script src="~/js/ChartsCreator.js"></script>
     <script src="~/lib/D3/d3.min.js"></script>
 
 
@@ -45,12 +44,11 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">         
-            @RenderBody()
-        </main>
-    </div>
-
+<div class="container">
+    <main role="main" class="pb-3">         
+        @RenderBody()
+    </main>
+</div>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)

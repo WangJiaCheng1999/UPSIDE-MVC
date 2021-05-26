@@ -20,20 +20,20 @@
           })
 
         //SVG and delay and ease animation
-    var svg = d3.select("#ani")
+    let svg = d3.select("#ani")
         .append("svg")
         .attr("width", 500)
         .attr("height", 500)
 
 
-    var bar1 = svg.append("rect")
+    let bar1 = svg.append("rect")
         .attr("fill", "blue")
         .attr("x", 50)
         .attr("y", 20)
         .attr("height", 20)
         .attr("width", 10)
 
-    var bar2 = svg.append("rect")
+    let bar2 = svg.append("rect")
         .attr("fill", "blue")
         .attr("x", 120)
         .attr("y", 20)
@@ -57,50 +57,5 @@ function update() {
 </script>
 </div>
 
-
-
-<div id="enterFunction">
-    <script>
-        var data = [1, 2, 3, 4, 5]
-
-        var body = d3.select("#enterFunction")
-            .selectAll("p")
-            .data(data)
-            .enter()
-            .append("p")
-
-    </script>
-
-    <script>
-        var matrix = [
-            [1, 2, 3, 4],
-            [5, 6, 7, 8],
-            [9, 10, 11, 12],
-            [13, 14, 15, 16]
-        ];
-
-        var tr = d3.select("body")
-            .append("table")  // adds <table>
-            .selectAll("tr")  // selects all <tr>
-            .data(matrix)      // joins matrix array
-            .enter()           // create placeholders for each row in the array
-            .append("tr");// create <tr> in each placeholder
-
-
-        
-
-        var td = tr.selectAll("td")
-            .data(function (d) {    // joins inner array of each row
-                return d;
-            })
-            .enter()    // create placeholders for each element in an inner array
-            .append("td") // creates <td> in each placeholder
-            .text(function (d) {
-                return d; // add value of each inner array as a text in <td>
-            });
-    </script>
-
-
-</div>
 
 

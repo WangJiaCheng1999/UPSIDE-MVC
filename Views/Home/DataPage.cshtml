@@ -2,12 +2,20 @@
 @{
     ViewData["Title"] = "DataPage";
 }
-<div class="barchart">
 
-</div>
+<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        Overall Analysis
+    </li>
+    <li class="nav-item">
+        Detailed Analysis
+    </li>
+</ul>
+<svg class="barchart">
+    
+</svg>
 
-<div class="timeUseSummary"></div>
-<div class="correctRateSummary"></div>
+
 
 <script>
     //All data from the JSON files
@@ -23,113 +31,12 @@
     console.log(getSingleRoundData(2,allData));
         
     let timeUseData = Array.from(aveTimeUse.values());
-
-    createBarChart(".barchart",500,500,timeUseData);
-</script>
+    
+    
+    createBarChart(".barchart",500,500,500,500,timeUseData);
 
 @*PieChart(YiFei)*@
-<script>
 
-       var width10 = 600;
-       var height10 = 600;
-       var itemCount10 = 0;
-       var localCount = 0;
-       var globalCount = 0;
-       var neitherCount = 0;
-   
-       var filepath = "https://"+window.location.host+"/JData/Round1.json";
-  
-   
-       d3.json(filepath, function (error, data10) {
-       console.log("data10.length=" + data10.length);
-       if (error) {
-           throw error;
-       }
-
-       localCount = parseInt(data10.filter((res) => { return res.ImageType == "Local" }).length);
-       globalCount = parseInt(data10.filter((res) => { return res.ImageType == "Global" }).length);
-       neitherCount = parseInt(data10.filter((res) => { return res.ImageType == "Neither" }).length);
-       console.log("localCount=" + localCount + ",   globalCount=" + globalCount + ",   neitherCount=" + neitherCount);
-
-       var dataset = [['Local', localCount], ['Global', globalCount], ['Neither', neitherCount]];
-       
-       var pie = d3.pie()
-           .sort(null)
-           .value(function (d) {
-               return d[1];
-           });
-       
-       var piedata = pie(dataset);
-
-       var outerRadius10 = width10 / 5;                //4
-       var innerRadius10 = width10 / 20;               //0
-
-       var arc = d3.arc()
-           .outerRadius(outerRadius10)
-           .innerRadius(innerRadius10);
-
-       var colors = d3.schemeCategory10;
-
-       var svg10 = d3.select("#svg10")
-           .append('svg')
-           .attr('width', width10)
-           .attr('height', height10);
-
-       var arcs = svg10.selectAll('g')
-           .data(piedata)
-           .enter()
-           .append('g')
-           .attr('transform', 'translate(' + width10 / 2 + ',' + height10 / 2 + ')');
-
-       arcs.append('path')
-           .attr('fill', function (d, i) {
-               return colors[i + 2];                   //purple,green,red
-           })
-           .attr('d', function (d) {
-               return arc(d);
-           });
-
-       arcs.append('text')
-           .attr('transform', function (d, i) {
-               var x10 = arc.centroid(d)[0] * 2.5;     //2.8@circle
-               var y10 = arc.centroid(d)[1] * 2.5;     //2.8@circle
-               if (i === 4) {
-                   return 'translate(' + (x10 * 1.2) + ', ' + (y10 * 1.2) + ')';
-               } else if (i === 3) {
-                   return 'translate(' + (x10 - 40) + ', ' + y10 + ')';
-               } else if (i === 5) {
-                   return 'translate(' + (x10 + 40) + ', ' + y10 + ')';
-               }
-               return 'translate(' + x10 + ', ' + y10 + ')';
-           })
-           .attr('text-anchor', 'middle')
-           .style("font-size", "16px")
-           .attr("stroke", "blue")
-           .text(function (d) {
-               var percent = Number(d.value) / d3.sum(dataset, function (d) {
-                   return d[1];
-               }) * 100;
-               return d.data[0] + ' ' + percent.toFixed(1) + '%';
-           })
-
-       arcs.append('line')
-           .attr('stroke', 'black')
-           .attr('x1', function (d) { return arc.centroid(d)[0] * 1.65; })      //2@circle
-           .attr('y1', function (d) { return arc.centroid(d)[1] * 1.65; })      //2@circle
-           .attr('x2', function (d, i) {
-               if (i === 4) {
-                   return arc.centroid(d)[0] * 3.2;
-               }
-               return arc.centroid(d)[0] * 2.5;
-           })
-           .attr('y2', function (d, i) {
-               if (i === 4) {
-                   return arc.centroid(d)[1] * 3.2;
-               }
-               return arc.centroid(d)[1] * 2.5;
-           });
-   });
-   
 
 </script>
 

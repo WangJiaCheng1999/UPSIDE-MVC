@@ -3,7 +3,9 @@
 }
 <h2>Please select the round you want to review</h2>
 <select id="dataSelector"></select>
-<div id="dataDisplay"></div>
+<div id="dataDisplay">
+    
+</div>
 
 <style>
     table {
@@ -32,7 +34,7 @@
     
     showData("Round1");
     
-    //Get what options that user selected  
+    //Get what options that user selected and show the data based on that
    $("#dataSelector").change(function (round){
        let options = $("#dataSelector option:selected");
        showData(options.val());
