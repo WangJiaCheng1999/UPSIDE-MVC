@@ -44,16 +44,21 @@
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
 <svg width="500" height="500" id="svg10"></svg>
 <script>
-    var width10 = 600;
-    var height10 = 600;
+    var width10 = 500;
+    var height10 = 500;
     var itemCount10 = 0;
-    var localCount = 0;
-    var globalCount = 0;
-    var neitherCount = 0;
+    var pie_item1_count = 0;
+    var pie_item2_count = 0;
+    var pie_item3_count = 0;
 
+    var pie_item1 = "Local";                                                                  // 
+    var pie_item2 = "Global";                                                                  // 
+    var pie_item3 = "Neither";                                                                  // 
+
+    var selected_id = 2;                                                                 // selected_id should get from the raw_data sheet
     var filepath = "/JData/";
-    var filename = filepath + "Round1.json";                            //Which file ?
-    //console.log("Round i = " + i);
+    var filename = filepath + "Round" + selected_id +".json";                           
+    console.log("Round i = " + filename);
 
     d3.json(filename, function (error, data10) {
         console.log("data10.length=" + data10.length);
@@ -61,12 +66,12 @@
             throw error;
         }
 
-        localCount = parseInt(data10.filter((res) => { return res.ImageType == "Local" }).length);
-        globalCount = parseInt(data10.filter((res) => { return res.ImageType == "Global" }).length);
-        neitherCount = parseInt(data10.filter((res) => { return res.ImageType == "Neither" }).length);
-        console.log("localCount=" + localCount + ",   globalCount=" + globalCount + ",   neitherCount=" + neitherCount);
+        pie_item1_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item1 }).length);
+        pie_item2_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item2 }).length);
+        pie_item3_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item3 }).length);
+        console.log( pie_item1 + "=" + pie_item1_count + ", " +  pie_item2 + "=" + pie_item2_count + ", " + pie_item3 + "=" + pie_item3_count);
 
-        var dataset = [['Local', localCount], ['Global', globalCount], ['Neither', neitherCount]];
+        var dataset = [[pie_item1, pie_item1_count], [pie_item2, pie_item2_count], [pie_item3, pie_item3_count]];
         var pie = d3.pie()
             .sort(null)
             .value(function (d) {
