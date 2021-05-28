@@ -91,6 +91,7 @@
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
 
 <svg width="500" height="500" id="svg10"></svg>
+<svg width="500" height="500" id="svg11"></svg>
 <script>
     //var width10 = 500;
     //var height10 = 500;
@@ -108,10 +109,12 @@
     var filename = filepath + "Round" + selected_id + ".json";
     console.log("Round i = " + filename);
 
-    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename);       //demo 1
-    PieInit(200, 300, pie_item1, pie_item2, pie_item3, filename);       //demo 2 in same svg
+    var filename2 = filepath + "Round3.json";                        //test
 
-    function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename) {
+    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename, "#svg10");       //demo 1
+    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename2, "#svg11");       //demo 2 in another svg
+
+    function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
         d3.json(filename, function (error, data10) {
             console.log("data10.length=" + data10.length);
             if (error) {
@@ -131,8 +134,8 @@
                 });
             var piedata = pie(dataset);
 
-            var outerRadius10 = width10 / 5;               
-            var innerRadius10 = width10 / 20;              
+            var outerRadius10 = width10 / 5;
+            var innerRadius10 = width10 / 20;
 
             var arc = d3.arc()
                 .outerRadius(outerRadius10)
@@ -140,7 +143,8 @@
 
             var colors = d3.schemeCategory10;
 
-            var svg10 = d3.select("#svg10")
+            //var svg10 = d3.select("#svg10")
+            var svg10 = d3.select(svg_id)
                 .append('svg')
                 .attr('width', width10)
                 .attr('height', height10);
@@ -204,6 +208,8 @@
 </script>
 
 <svg width="500" height="500" id="svg20"></svg>
+<svg width="500" height="500" id="svg21"></svg>
+
 <script>
 
     var padding01 = {
@@ -214,12 +220,13 @@
     };
     var width01 = 500 - padding01.left - padding01.right;
     var height01 = 500 - padding01.top - padding01.bottom;
-    var rectHeight = 25; 
-    var rectPadding = 4; 
+    var rectHeight = 25;
+    var rectPadding = 4;
 
-    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename);
+    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg20");
+    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename2, "#svg21");
 
-    function BarInit(width01, height01, padding01, rectHeight, rectPadding, filename) {
+    function BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, svg_id) {
 
         d3.json(filename, function (error, data01) {
             if (error) throw error;
@@ -243,7 +250,7 @@
             var xScale = d3.scaleBand().domain(Xdatas).rangeRound([0, width01]).padding(0.1),
                 yScale = d3.scaleLinear().domain([0, d3.max(values)]).rangeRound([height01, 0]);
 
-            var svg01 = d3.select("#svg20")        
+            var svg01 = d3.select(svg_id)
                 .attr('width', width01 + padding01.left + padding01.right)
                 .attr('height', height01 + padding01.top + padding01.bottom);
 
@@ -330,7 +337,7 @@
                 .attr('y', function (d) {
                     return yScale(d.TimeUse);
                 })
-                .attr('dx', xScale.bandwidth() / 2+10)        //+10 make text middle
+                .attr('dx', xScale.bandwidth() / 2 + 10)        //+10 make text middle
                 .attr('dy', 20)
                 .attr('text-anchor', 'middle')
                 .text(function (d) {
