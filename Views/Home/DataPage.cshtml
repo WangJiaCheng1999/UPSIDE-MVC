@@ -2,6 +2,53 @@
 @{
     ViewData["Title"] = "DataPage";
 }
+<style>
+    .arc text {
+        font: 16px arial;
+        text-anchor: middle;
+    }
+
+    .arc path {
+        stroke: #fff;
+    }
+
+    .title {
+        font: 20px arial;
+        fill: darkblue;
+        font-weight: bold;
+    }
+
+    .line {
+        fill: none;
+        stroke: blueviolet;
+        stroke-width: 3px;
+    }
+
+    .bar {
+        fill: lightblue;
+    }
+
+    .highlight {
+        fill: red;
+    }
+
+    .title {
+        fill: blue;
+        font-weight: bold;
+    }
+
+    svg rect {
+        fill: grey;
+    }
+
+    svg text {
+        fill: black;
+        font: 12px sans-serif;
+        text-anchor: end;
+    }
+</style>
+
+
 
 <ul class="navbar-nav flex-grow-1">
     <li class="nav-item">
@@ -42,108 +89,276 @@
 
 
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
+
 <svg width="500" height="500" id="svg10"></svg>
+<svg width="500" height="500" id="svg11"></svg>
 <script>
-    var width10 = 600;
-    var height10 = 600;
+    //var width10 = 500;
+    //var height10 = 500;
     var itemCount10 = 0;
-    var localCount = 0;
-    var globalCount = 0;
-    var neitherCount = 0;
+    var pie_item1_count = 0;
+    var pie_item2_count = 0;
+    var pie_item3_count = 0;
 
+    var pie_item1 = "Local";                                                // replace with what item name ?
+    var pie_item2 = "Global";                                               //
+    var pie_item3 = "Neither";                                              //
+
+    var selected_id = 2;                                                    // selected_id should get from the raw_data sheet
     var filepath = "/JData/";
-    var filename = filepath + "Round1.json";                            //Which file ?
-    //console.log("Round i = " + i);
+    var filename = filepath + "Round" + selected_id + ".json";
+    console.log("Round i = " + filename);
 
-    d3.json(filename, function (error, data10) {
-        console.log("data10.length=" + data10.length);
-        if (error) {
-            throw error;
-        }
+    var filename2 = filepath + "Round3.json";                        //test
 
-        localCount = parseInt(data10.filter((res) => { return res.ImageType == "Local" }).length);
-        globalCount = parseInt(data10.filter((res) => { return res.ImageType == "Global" }).length);
-        neitherCount = parseInt(data10.filter((res) => { return res.ImageType == "Neither" }).length);
-        console.log("localCount=" + localCount + ",   globalCount=" + globalCount + ",   neitherCount=" + neitherCount);
+    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename, "#svg10");       //demo 1
+    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename2, "#svg11");       //demo 2 in another svg
 
-        var dataset = [['Local', localCount], ['Global', globalCount], ['Neither', neitherCount]];
-        var pie = d3.pie()
-            .sort(null)
-            .value(function (d) {
-                return d[1];
-            });
-        var piedata = pie(dataset);
+    function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
+        d3.json(filename, function (error, data10) {
+            console.log("data10.length=" + data10.length);
+            if (error) {
+                throw error;
+            }
 
-        var outerRadius10 = width10 / 5;                //4
-        var innerRadius10 = width10 / 20;               //0
+            pie_item1_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item1 }).length);
+            pie_item2_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item2 }).length);
+            pie_item3_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item3 }).length);
+            console.log(pie_item1 + "=" + pie_item1_count + ", " + pie_item2 + "=" + pie_item2_count + ", " + pie_item3 + "=" + pie_item3_count);
 
-        var arc = d3.arc()
-            .outerRadius(outerRadius10)
-            .innerRadius(innerRadius10);
-
-        var colors = d3.schemeCategory10;
-
-        var svg10 = d3.select("#svg10")
-            .append('svg')
-            .attr('width', width10)
-            .attr('height', height10);
-
-        var arcs = svg10.selectAll('g')
-            .data(piedata)
-            .enter()
-            .append('g')
-            .attr('transform', 'translate(' + width10 / 2 + ',' + height10 / 2 + ')');
-
-        arcs.append('path')
-            .attr('fill', function (d, i) {
-                return colors[i + 2];                   //purple,green,red
-            })
-            .attr('d', function (d) {
-                return arc(d);
-            });
-
-        arcs.append('text')
-            .attr('transform', function (d, i) {
-                var x10 = arc.centroid(d)[0] * 2.5;     //2.8@circle
-                var y10 = arc.centroid(d)[1] * 2.5;     //2.8@circle
-                if (i === 4) {
-                    return 'translate(' + (x10 * 1.2) + ', ' + (y10 * 1.2) + ')';
-                } else if (i === 3) {
-                    return 'translate(' + (x10 - 40) + ', ' + y10 + ')';
-                } else if (i === 5) {
-                    return 'translate(' + (x10 + 40) + ', ' + y10 + ')';
-                }
-                return 'translate(' + x10 + ', ' + y10 + ')';
-            })
-            .attr('text-anchor', 'middle')
-            .style("font-size", "16px")
-            .attr("stroke", "blue")
-            .text(function (d) {
-                var percent = Number(d.value) / d3.sum(dataset, function (d) {
+            var dataset = [[pie_item1, pie_item1_count], [pie_item2, pie_item2_count], [pie_item3, pie_item3_count]];
+            var pie = d3.pie()
+                .sort(null)
+                .value(function (d) {
                     return d[1];
-                }) * 100;
-                return d.data[0] + ' ' + percent.toFixed(1) + '%';
-            })
+                });
+            var piedata = pie(dataset);
 
-        arcs.append('line')
-            .attr('stroke', 'black')
-            .attr('x1', function (d) { return arc.centroid(d)[0] * 1.65; })      //2@circle
-            .attr('y1', function (d) { return arc.centroid(d)[1] * 1.65; })      //2@circle
-            .attr('x2', function (d, i) {
-                if (i === 4) {
-                    return arc.centroid(d)[0] * 3.2;
-                }
-                return arc.centroid(d)[0] * 2.5;
-            })
-            .attr('y2', function (d, i) {
-                if (i === 4) {
-                    return arc.centroid(d)[1] * 3.2;
-                }
-                return arc.centroid(d)[1] * 2.5;
-            });
-    });
+            var outerRadius10 = width10 / 5;
+            var innerRadius10 = width10 / 20;
+
+            var arc = d3.arc()
+                .outerRadius(outerRadius10)
+                .innerRadius(innerRadius10);
+
+            var colors = d3.schemeCategory10;
+
+            //var svg10 = d3.select("#svg10")
+            var svg10 = d3.select(svg_id)
+                .append('svg')
+                .attr('width', width10)
+                .attr('height', height10);
+
+            var arcs = svg10.selectAll('g')
+                .data(piedata)
+                .enter()
+                .append('g')
+                .attr('transform', 'translate(' + width10 / 2 + ',' + height10 / 2 + ')');
+
+            arcs.append('path')
+                .attr('fill', function (d, i) {
+                    return colors[i + 2];                   //purple,green,red
+                })
+                .attr('d', function (d) {
+                    return arc(d);
+                });
+
+            arcs.append('text')
+                .attr('transform', function (d, i) {
+                    var x10 = arc.centroid(d)[0] * 2.5;     //2.8@circle
+                    var y10 = arc.centroid(d)[1] * 2.5;     //2.8@circle
+                    if (i === 4) {
+                        return 'translate(' + (x10 * 1.2) + ', ' + (y10 * 1.2) + ')';
+                    } else if (i === 3) {
+                        return 'translate(' + (x10 - 40) + ', ' + y10 + ')';
+                    } else if (i === 5) {
+                        return 'translate(' + (x10 + 40) + ', ' + y10 + ')';
+                    }
+                    return 'translate(' + x10 + ', ' + y10 + ')';
+                })
+                .attr('text-anchor', 'middle')
+                .style("font-size", "16px")
+                .attr("stroke", "blue")
+                .text(function (d) {
+                    var percent = Number(d.value) / d3.sum(dataset, function (d) {
+                        return d[1];
+                    }) * 100;
+                    return d.data[0] + ' ' + percent.toFixed(1) + '%';
+                })
+
+            arcs.append('line')
+                .attr('stroke', 'black')
+                .attr('x1', function (d) { return arc.centroid(d)[0] * 1.65; })      //2@circle
+                .attr('y1', function (d) { return arc.centroid(d)[1] * 1.65; })      //2@circle
+                .attr('x2', function (d, i) {
+                    if (i === 4) {
+                        return arc.centroid(d)[0] * 3.2;
+                    }
+                    return arc.centroid(d)[0] * 2.5;
+                })
+                .attr('y2', function (d, i) {
+                    if (i === 4) {
+                        return arc.centroid(d)[1] * 3.2;
+                    }
+                    return arc.centroid(d)[1] * 2.5;
+                });
+        });
+    }
 
 </script>
+
+<svg width="500" height="500" id="svg20"></svg>
+<svg width="500" height="500" id="svg21"></svg>
+
+<script>
+
+    var padding01 = {
+        top: 50,
+        right: 50,
+        bottom: 30,
+        left: 50
+    };
+    var width01 = 500 - padding01.left - padding01.right;
+    var height01 = 500 - padding01.top - padding01.bottom;
+    var rectHeight = 25;
+    var rectPadding = 4;
+
+    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg20");
+    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename2, "#svg21");
+
+    function BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, svg_id) {
+
+        d3.json(filename, function (error, data01) {
+            if (error) throw error;
+
+            data01.forEach(function (d) {
+                d.Round = d.Round;
+                d.TimeUse = +d.TimeUse;
+            });
+
+            // get X data
+            var Xdatas = data01.map(function (d) {
+                return d.Round;
+            });
+
+            // get Y data
+            var values = data01.map(function (d) {
+                return d.TimeUse;
+            });
+
+            // create xScale & yScale
+            var xScale = d3.scaleBand().domain(Xdatas).rangeRound([0, width01]).padding(0.1),
+                yScale = d3.scaleLinear().domain([0, d3.max(values)]).rangeRound([height01, 0]);
+
+            var svg01 = d3.select(svg_id)
+                .attr('width', width01 + padding01.left + padding01.right)
+                .attr('height', height01 + padding01.top + padding01.bottom);
+
+            // append group to svg
+            var g = svg01.append('g')
+                .attr('transform', 'translate(' + padding01.left + ',' + padding01.top + ')');
+
+            // add Title
+            //g.attr('class', 'headerText')
+            //    .append('text')
+            //    .attr('transform', 'translate(' + (width01 / 2) + ',' + (-padding01.top / 2) + ')')
+            //    .attr('text-anchor', 'middle')
+            //    .attr('font-weight', 300)
+            //    .text('Dynamic Bar Chart')
+            //    .attr('font-size', '3em');           // no effect ?
+
+            // add X axis
+            g.append('g')
+                .attr('class', 'axisX')
+                .attr('transform', 'translate(0,' + height01 + ')')
+                .call(d3.axisBottom(xScale))
+                .attr('font-weight', 'bold');
+
+            // add Y axis
+            g.append('g')
+                .attr('class', 'axisY')
+                .call(d3.axisLeft(yScale).ticks(10));
+
+            // create chart for rect
+            var chart = g.selectAll('.bar')
+                .data(data01)
+                .enter().append('g')
+
+            // add rects
+            chart.append('rect')
+                .attr('class', 'bar')
+                .attr('x', function (d) {
+                    return xScale(d.Round);
+                })
+                //start animatoion
+                .attr("y", function (d) {
+                    var min = yScale.domain()[0];
+                    return yScale(min);
+                })
+                .attr("height", function (d) {
+                    return 0;
+                })
+                .transition()
+                .delay(function (d, i) {
+                    return i * 200;
+                })
+                .duration(2000)
+                .ease(d3.easeBounceIn)
+                //animation finish
+                .attr('y', function (d) {
+                    return yScale(d.TimeUse);
+                })
+                .attr('height', function (d) {
+                    return height01 - yScale(d.TimeUse);
+                })
+                .attr('width', xScale.bandwidth());
+
+            // add text to rects
+            chart.append('text')
+                .attr('class', 'barText')
+                .attr('x', function (d) {
+                    return xScale(d.Round);
+                })
+                //start animation
+                .attr("y", function (d) {
+                    var min = yScale.domain()[0];
+                    return yScale(min);
+                })
+                .attr("height", function (d) {
+                    return 0;
+                })
+                .transition()
+                .delay(function (d, i) {
+                    return i * 200;
+                })
+                .duration(1000)
+                .ease(d3.easeBounceIn)
+                //animation finish
+                .attr('y', function (d) {
+                    return yScale(d.TimeUse);
+                })
+                .attr('dx', xScale.bandwidth() / 2 + 10)        //+10 make text middle
+                .attr('dy', 20)
+                .attr('text-anchor', 'middle')
+                .text(function (d) {
+                    console.log("d.TimeUse", d.TimeUse)
+                    return d.TimeUse;
+                });
+
+            // add mouseover event
+            chart.on('mouseover', function (d) {
+                d3.select(this).attr('opacity', 0.7);
+            })
+                .on('mouseout', function (d) {
+                    d3.select(this)
+                        .transition()
+                        .duration(500)
+                        .attr('opacity', 1)
+                });
+        });
+    }
+</script>
+
 
 
 
