@@ -1,29 +1,18 @@
 ﻿@{
     ViewData["Title"] = "RawData";
 }
-<h2>Please select the round you want to review</h2>
-<select id="dataSelector"></select>
-<div id="dataDisplay">
-    
-</div>
+@using MvcTest.wwwroot.cSharpFunction
+<link href="~/css/RawDataPage.css" rel="stylesheet" />
+<h2 id="formTitle">Please select the 
+    <select id="dataSelector" >Data Selector</select> 
+    you want to review
+</h2>
+<div id="dataDisplay" class="align-content-center"></div>
 
-<style>
-    table {
-        border-spacing: 0;
-        border: 1px solid #c0c0c0;
-        width: 300px;
-    }
-    td {
-        border: 1px solid #d0d0d0;
-        color: #404060;
-        padding: 10px;
-        font: 14px "Lucida Console";
-        text-align: center;
-    }
-</style>
 
 <script>
-    let allData = getAllData(4);
+    let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");
+    let allData = getAllData(fileCount);
     
     //Add options into the selector
     for (let i = 1; i <= allData.size; i++){    

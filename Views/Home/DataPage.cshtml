@@ -38,7 +38,7 @@
     }
 
     svg rect {
-        fill: steelblue;
+        fill: grey;
     }
 
     svg text {
@@ -50,43 +50,6 @@
 
 
 
-<ul class="navbar-nav flex-grow-1">
-    <li class="nav-item">
-        Overall Analysis
-    </li>
-    <li class="nav-item">
-        Detailed Analysis
-    </li>
-</ul>
-<svg class="barchart">
-
-</svg>
-
-
-
-<script>
-    //All data from the JSON files
-    let allData = getAllData(4);
-
-    //Maps that save each round's different types of experiment data
-    let aveTimeUse = getAveTimeUseMap(allData);
-    let aveAccuracy = getAveAccuracyMap(allData);
-    let imageTypeSummary = getImageAccuracyMap(allData);
-
-    console.log(imageTypeSummary.get("Count"));
-    console.log(imageTypeSummary.get("Accuracy"));
-    console.log(getSingleRoundData(2,allData));
-
-    let timeUseData = Array.from(aveTimeUse.values());
-
-
-    createBarChart(".barchart",500,500,500,500,timeUseData);
-
-@*PieChart(YiFei)*@
-
-
-</script>
-
 
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
 
@@ -95,26 +58,25 @@
 <script>
     //var width10 = 500;
     //var height10 = 500;
-    var itemCount10 = 0;                                                    // total items
-    var pie_item1_count = 0;                                                // item1 count
+    var itemCount10 = 0;
+    var pie_item1_count = 0;
     var pie_item2_count = 0;
     var pie_item3_count = 0;
 
-    var pie_item1 = "Local";                                                // replace with item name
-    var pie_item2 = "Global";
-    var pie_item3 = "Neither";
+    var pie_item1 = "Local";                                                // replace with what item name ?
+    var pie_item2 = "Global";                                               //
+    var pie_item3 = "Neither";                                              //
 
     var selected_id = 2;                                                    // selected_id should get from the raw_data sheet
     var filepath = "/JData/";
-    var filename = filepath + "Round" + selected_id + ".json";              // full filename
+    var filename = filepath + "Round" + selected_id + ".json";
     console.log("Round i = " + filename);
 
-    var filename2 = filepath + "Round3.json";                               //test
+    var filename2 = filepath + "Round3.json";                        //test
 
     PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename, "#svg10");       //demo 1
     PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename2, "#svg11");       //demo 2 in another svg
 
-    // Show pie chart with given item names in a specified svg
     function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
         d3.json(filename, function (error, data10) {
             console.log("data10.length=" + data10.length);
@@ -122,15 +84,12 @@
                 throw error;
             }
 
-            //count the sum of the items
             pie_item1_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item1 }).length);
             pie_item2_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item2 }).length);
             pie_item3_count = parseInt(data10.filter((res) => { return res.ImageType == pie_item3 }).length);
             console.log(pie_item1 + "=" + pie_item1_count + ", " + pie_item2 + "=" + pie_item2_count + ", " + pie_item3 + "=" + pie_item3_count);
 
-            //dataset with item count for pie chart
             var dataset = [[pie_item1, pie_item1_count], [pie_item2, pie_item2_count], [pie_item3, pie_item3_count]];
-
             var pie = d3.pie()
                 .sort(null)
                 .value(function (d) {
@@ -148,7 +107,6 @@
             var colors = d3.schemeCategory10;
 
             //var svg10 = d3.select("#svg10")
-            //use svg_id as the svg name
             var svg10 = d3.select(svg_id)
                 .append('svg')
                 .attr('width', width10)
@@ -212,22 +170,26 @@
 
 </script>
 
-<svg width="500" height="500" id="svg20" class="svgs"></svg>
-<svg width="500" height="500" id="svg21" class="svgs"></svg>
+<svg width="500" height="500" id="svg20"></svg>
+<svg width="500" height="500" id="svg21"></svg>
 
 <script>
 
-    var padding01 = { top: 50, right: 50, bottom: 30, left: 50 };
-    var width01 = 500 - padding01.left - padding01.right;               // width of the chart
-    var height01 = 500 - padding01.top - padding01.bottom;              // height of the chart
-    var rectWidth = 25;                                                 // rect width
+    var padding01 = {
+        top: 50,
+        right: 50,
+        bottom: 30,
+        left: 50
+    };
+    var width01 = 500 - padding01.left - padding01.right;
+    var height01 = 500 - padding01.top - padding01.bottom;
+    var rectHeight = 25;
     var rectPadding = 4;
 
-    BarInit(width01, height01, padding01, rectWidth, rectWidth, filename, "#svg20");
-    BarInit(width01, height01, padding01, rectWidth, rectWidth, filename2, "#svg21");
+    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg20");
+    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename2, "#svg21");
 
-    // Show bar chart with given size in a specified svg
-    function BarInit(width01, height01, padding01, rectWidth, rectPadding, filename, svg_id) {
+    function BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, svg_id) {
 
         d3.json(filename, function (error, data01) {
             if (error) throw error;
@@ -260,13 +222,13 @@
                 .attr('transform', 'translate(' + padding01.left + ',' + padding01.top + ')');
 
             // add Title
-            // g.attr('class', 'headerText')
+            //g.attr('class', 'headerText')
             //    .append('text')
             //    .attr('transform', 'translate(' + (width01 / 2) + ',' + (-padding01.top / 2) + ')')
             //    .attr('text-anchor', 'middle')
             //    .attr('font-weight', 300)
             //    .text('Dynamic Bar Chart')
-            //    .attr('font-size', '3em');
+            //    .attr('font-size', '3em');           // no effect ?
 
             // add X axis
             g.append('g')
@@ -283,7 +245,7 @@
             // create chart for rect
             var chart = g.selectAll('.bar')
                 .data(data01)
-                .enter().append('g')
+                .enter().append('g');
 
             // add rects
             chart.append('rect')
@@ -305,6 +267,7 @@
                 })
                 .duration(2000)
                 .ease(d3.easeBounceIn)
+                
                 //animation finish
                 .attr('y', function (d) {
                     return yScale(d.TimeUse);
@@ -334,6 +297,7 @@
                 })
                 .duration(1000)
                 .ease(d3.easeBounceIn)
+                
                 //animation finish
                 .attr('y', function (d) {
                     return yScale(d.TimeUse);
@@ -360,86 +324,10 @@
     }
 </script>
 
-<svg width="600" height="500" id="svg30" class="svgs"></svg>
-<script>
-    var svg30 = d3.select('#svg30');
-    var width = +svg30.attr('width');
-    var height = +svg30.attr('height');
-    var margin = { top: 60, right: 30, bottom: 60, left: 150 };
-    var innerWidth = width - margin.left - margin.right;
-    var innerHeight = height - margin.top - margin.bottom;
-    var xValue = (datum) => { return datum.TimeUse };
-    var yValue = (datum) => { return datum.Round };
-    var xText = "Time Used";
-    var topText = "Speed Ranking";
 
-    d3.json(filename, function (dataset) {
-        dataset.forEach(datum => {
-            datum.TimeUse = +(datum.TimeUse);
-        });
 
-        //Sort the dataset by ascending order
-        dataset = dataset.sort((a, b) => {
-            return d3.ascending(+a.TimeUse, +b.TimeUse)
-        });
 
-        console.log(dataset);
-        console.log(dataset.map((datum) => { return datum.Round; }))
-        ascendingBar(dataset, xText, topText);
 
-    });
 
-    function ascendingBar(data, xText, topText) {
 
-        // Linear Scale: Data Space -> Screen Space;
-        var xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, xValue)])
-            .range([0, innerWidth]);
 
-        // Introducing y-Scale;
-        var yScale = d3.scaleBand()
-            .domain(data.map(yValue))
-            .range([0, innerHeight])
-            .padding(0.1);
-
-        // Transform to (left,top)
-        var g = svg30.append('g')
-            .attr('transform', `translate(${margin.left}, ${margin.top})`);
-
-        // data join with enter()
-        g.selectAll('rect')
-            .data(data)
-            .enter()
-            .append('rect')
-            .attr('y', datum => yScale(yValue(datum)))
-            .attr('width', (datum) => { return xScale(xValue(datum)) }) // use xSacle to re-scale data space (domain) and return the rescaled population;
-            .attr('height', yScale.bandwidth())
-            .attr('fill', 'steelblue')
-
-        // Adding axes;
-        var yAxis = d3.axisLeft(yScale);
-        var xAxis = d3.axisBottom(xScale)
-            .tickFormat(d3.format(''))             //show original number
-            .tickSize(-innerHeight);
-
-        let yAxisGroup = g.append('g').call(yAxis);
-
-        yAxisGroup.selectAll('.domain, .tick line').remove();
-
-        let xAxisGroup = g.append('g').call(xAxis)
-            .attr('transform', `translate(${0}, ${innerHeight})`);
-        xAxisGroup.append('text')
-            .attr('y', 50)
-            .attr('x', innerWidth / 2)
-            .attr('fill', 'black').text(xText)
-            .attr('id', 'TimeUse');
-        xAxisGroup.selectAll('.domain').remove();
-
-        // Adding a title;
-        g.append('text')
-            .text(topText)
-            .attr('y', -10)
-            .attr('x', 80);
-    }
-
-</script>
