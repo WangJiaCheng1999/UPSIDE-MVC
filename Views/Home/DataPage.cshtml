@@ -359,6 +359,87 @@
     }
 </script>
 
+<svg width="600" height="500" id="svg30" class="svgs"></svg>
+<script>
+    const svg30 = d3.select('#svg30');
+    const width = +svg30.attr('width');
+    const height = +svg30.attr('height');
+    const margin = { top: 60, right: 30, bottom: 60, left: 150 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const xValue = (datum) => { return datum.TimeUse };
+    const yValue = (datum) => { return datum.Round };
+
+    const render = function (data) {
+
+        // Linear Scale: Data Space -> Screen Space;
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(data, xValue)])
+            .range([0, innerWidth]);
+
+        // Introducing y-Scale;
+        const yScale = d3.scaleBand()
+            .domain(data.map(yValue))
+            .range([0, innerHeight])
+            .padding(0.1);
+
+        // The reason of using group is that nothing is rendered outside svg, so margin of svg is always blank while margin of group is rendered inside svg;
+        const g = svg30.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        // Do the data join (Enter)
+        g.selectAll('rect')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('y', datum => yScale(yValue(datum)))
+            .attr('width', (datum) => { return xScale(xValue(datum)) }) // use xSacle to re-scale data space (domain) and return the rescaled population;
+            .attr('height', yScale.bandwidth())
+            .attr('fill', 'steelblue')
+
+        // Adding axes;
+        const yAxis = d3.axisLeft(yScale);
+        const xAxis = d3.axisBottom(xScale)
+            .tickFormat(d3.format(''))             //show original number
+            .tickSize(-innerHeight);
+
+        let yAxisGroup = g.append('g').call(yAxis);
+
+        yAxisGroup.selectAll('.domain, .tick line').remove(); // we can select multiple tags using comma to seperate them and we can use space to signify nesting;
+
+        let xAxisGroup = g.append('g').call(xAxis)
+            .attr('transform', `translate(${0}, ${innerHeight})`);
+        xAxisGroup.append('text')
+            .attr('y', 50)
+            .attr('x', innerWidth / 2)
+            .attr('fill', 'black').text('Time Used ')
+            .attr('id', 'TimeUse');
+        xAxisGroup.selectAll('.domain').remove();
+
+        // Adding a title;
+        g.append('text')
+            .text('Speed Ranking')
+            .attr('y', -10)
+            .attr('x', 80);
+    }
+ 
+    d3.json(filename, function (datatest) {
+        datatest.forEach(datum => {
+            datum.TimeUse = +(datum.TimeUse);
+        });
+
+        //Great !
+        datatest = datatest.sort((a, b) => {
+            return d3.ascending(+a.TimeUse, +b.TimeUse)
+        });
+
+        console.log(datatest);
+        console.log(datatest.map((datum) => { return datum.Round; }))
+        render(datatest);
+    });
+</script>
+
+
 
 
 
