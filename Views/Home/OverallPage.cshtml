@@ -1,39 +1,41 @@
 ﻿<link href="~/css/OverallPage.css" rel="stylesheet" />
+@using MvcTest.wwwroot.cSharpFunction
 <div class="row justify-content-start" id="OverallDataSelectors">
     <div class="col-6">
-        Data to be analyzed <select id="dataTypeSelector"></select>
+        Data to be analyzed  <select id="dataTypeSelector"></select>
     </div>
+    @{
+        FileCounter.GetNumberOfJsonFiles("X:/UPSIDE-MVC/wwwroot/JData");
+    }
     <div class="col-6">
         Types of Data Visualization <select id="visualTypeSelector"></select>
     </div>
 </div>
 
-<div id="OverallAnalyzed">
-    <svg></svg>
-</div>
+<svg></svg>
+
 
 <script>
+
+    $('#dataTypeSelector').append(`<option>Average Time Use</option>`);
+    $('#visualTypeSelector').append(`<option>Bar Chart</option>`);
+    
     //All data from the JSON files
     let allData = getAllData(4);
-
+    
     //Maps that save each round's different types of experiment data
     let aveTimeUse = getAveTimeUseMap(allData);
     let aveAccuracy = getAveAccuracyMap(allData);
     let imageTypeSummary = getImageAccuracyMap(allData);
 
-    console.log(imageTypeSummary.get("Count"));
-    console.log(imageTypeSummary.get("Accuracy"));
-    console.log(getSingleRoundData(2,allData));
-
     let timeUseData = Array.from(aveTimeUse.values());
-
-
-    createBarChart(".barchart",500,500,500,500,timeUseData);
-
-
-    $('#dataTypeSelector').append(`<option>Average Time Use</option>`);
-    $('#visualTypeSelector').append(`<option>Bar Chart</option>`);
     
+    console.log(aveTimeUse);
+    console.log(aveTimeUse.values())
     
+    d3.select("#bar").attr("transform",`translate(500,500)`);
+    
+    createHorizontalBarchart("svg",500,500,0,0,aveAccuracy);
+       
     
 </script>

@@ -3,8 +3,9 @@ This class is used for create different types of charts
 This file contain all D3.jS script will be used in DataPage
  */
 
-//Create a barchart with given class name and other critical elements
-function createBarChart(className,width,height,x,y,data){
+
+
+function createBarChart(className, width, height, x, y, data){
     
     //Set Graph's hight and width
     let svgWidth = width;
@@ -56,6 +57,57 @@ function createBarChart(className,width,height,x,y,data){
 
     //Axis Font
     d3.selectAll("g.tick").select("line").style("color", "red");
+    
+}
+
+//Create a horizontal barchart 
+function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data){
+    //set width and height of bar chart
+    let svg = d3.select(className)
+            .attr("width",svgWidth)
+            .attr("height",svgHeight);
+    
+    //Gaps between the barchart and svg
+    let margin = { top: 20, right: 20, bottom:20, left: 50};
+    
+    //Calculate the real range for x and y scale
+    let innerWidth = svgWidth - margin.left - margin.right;
+    let innerHeight = svgHeight - margin.top - margin.bottom;
+    
+    //Round and the values
+    let values = Array.from(data.values());
+    let keys = Array.from(data.keys());
+    
+    //X scale of bar chart
+    let xScale = d3.scaleLinear()
+        .domain([0,d3.max(values)])
+        .range([0,innerWidth]);
+    
+    //y scale of bar chart
+    let yScale = d3.scaleBand()
+        .domain(keys)
+        .range([0,innerHeight])
+        .padding(0.05);;
+        
+    //Separate out the barchart
+    let g = svg.append("g")
+        .attr("transform",`translate(${margin.left},${margin.top})`);
+    
+    //Left axis
+    g.append('g').call(d3.axisLeft(yScale)).selectAll('.domain , .tick line').remove();
+    
+    //Bottom axis
+    const xAxis = g.append('g').call(d3.axisBottom(xScale))
+        .attr('transform',`translate(0,${innerHeight})`)
+    ;
+    
+    g.selectAll("rect")
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("y", d => yScale(d[0]))
+        .attr("width",d => xScale(d[1]))
+        .attr("height", yScale.bandwidth());
     
 }
 

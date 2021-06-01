@@ -1,7 +1,9 @@
-﻿/*
+﻿
+/*
 This class is for data extraction and simple data analysis
  */
 
+    
 //Average timeUse calculation, values should be an array
 function aveCal(values) {
     let total = 0;
