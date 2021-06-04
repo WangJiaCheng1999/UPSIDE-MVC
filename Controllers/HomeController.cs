@@ -36,7 +36,7 @@ namespace MvcTest.Controllers
         //Open Unity application
         public void OpenUnity()
         {
-            Process.Start("C:/Users/Administrator/Desktop/UnityProgram/UnityExperiment.exe");
+            Process.Start("C:/Users/Administrator/Desktop/UnityExperiment/UnityExperiment.exe");
         }
 
         

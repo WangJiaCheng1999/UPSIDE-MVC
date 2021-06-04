@@ -2,60 +2,6 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center" id="ani">
-    <p class="hh">Error: This is error.</p>
-    <p class="hh">Warning:This is warning.</p>
-    <p class="hh">1</p>
-
-    <script>
-        //Mouse Event
-        d3.selectAll(".hh")
-          .on("mouseover", function () {
-            d3.select(this)
-            .text("OVE123R")
-          })
-          .on("mouseout", function () {
-            d3.select(this)
-            .text("OUT")
-          })
-
-        //SVG and delay and ease animation
-    let svg = d3.select("#ani")
-        .append("svg")
-        .attr("width", 500)
-        .attr("height", 500)
-
-
-    let bar1 = svg.append("rect")
-        .attr("fill", "blue")
-        .attr("x", 50)
-        .attr("y", 20)
-        .attr("height", 20)
-        .attr("width", 10)
-
-    let bar2 = svg.append("rect")
-        .attr("fill", "blue")
-        .attr("x", 120)
-        .attr("y", 20)
-        .attr("height", 20)
-        .attr("width", 10)
-
-    update();
-
-function update() {
-    bar1.transition()
-        .ease(d3.easeLinear)
-        .duration(2000)
-        .attr("height",100)
-
-    bar2.transition()
-        .ease(d3.easeLinear)
-        .duration(2000)
-        .delay(2000)
-        .attr("height",100)
-}
-</script>
-</div>
 
 
 

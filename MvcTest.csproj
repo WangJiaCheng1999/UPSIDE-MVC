@@ -16,12 +16,17 @@
     <Content Remove="Views\Home\123.cshtml" />
     <Content Remove="wwwroot\js\AnalyzeFactory.js" />
     <Content Remove="Views\Home\OverAllAnalyze.cshtml" />
+    <Content Remove="wwwroot\css\OverallPage.css~17c4741... HorizontalBarchart done" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Views\Home\123.cshtml.cs" />
     <Compile Remove="Views\Home\OverAllAnalyze.cshtml.cs" />
     <Compile Include="wwwroot\cSharpFunction\FileCounter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Home\OverallPage.cshtml~af4ffd6... Bug fixed on OpenUnity button" />
   </ItemGroup>
 
 
