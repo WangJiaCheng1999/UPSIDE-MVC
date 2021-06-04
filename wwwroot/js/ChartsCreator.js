@@ -61,14 +61,14 @@ function createBarChart(className, width, height, x, y, data){
 }
 
 //Create a horizontal barchart 
-function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data){
+function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data,xTitle){
     //set width and height of bar chart
     let svg = d3.select(className)
             .attr("width",svgWidth)
             .attr("height",svgHeight);
     
     //Gaps between the barchart and svg
-    let margin = { top: 20, right: 20, bottom:20, left: 50};
+    let margin = { top: 0, right: 30, bottom:100, left: 100};
     
     //Calculate the real range for x and y scale
     let innerWidth = svgWidth - margin.left - margin.right;
@@ -87,27 +87,59 @@ function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data){
     let yScale = d3.scaleBand()
         .domain(keys)
         .range([0,innerHeight])
-        .padding(0.05);;
+        .padding(0.05);
         
     //Separate out the barchart
     let g = svg.append("g")
         .attr("transform",`translate(${margin.left},${margin.top})`);
     
-    //Left axis
-    g.append('g').call(d3.axisLeft(yScale)).selectAll('.domain , .tick line').remove();
+    //Left axis with removed ticks
+    g.append('g')
+        .call(d3.axisLeft(yScale))
+        .selectAll('.domain , .tick line')
+        .remove();
+    
+    //this determine the value's format
+    let valueType;
+    if(d3.mean(values) < 1){
+      valueType = ".0%"  
+    }else {
+        valueType = ".0f";
+    }
+    
+    g.append('g')
+        .call(d3.axisLeft(yScale))
+        .selectAll('.domain, .tick line')
+        .remove();
     
     //Bottom axis
-    const xAxis = g.append('g').call(d3.axisBottom(xScale))
-        .attr('transform',`translate(0,${innerHeight})`)
-    ;
+    let xAxis = g.append('g')
+        .call(d3.axisBottom(xScale).tickFormat(d3.format(valueType)).tickSize(-innerHeight))
+        .attr('transform',`translate(0,${innerHeight})`);
     
+    
+    xAxis.select(".domain")
+        .remove();
+    
+    
+    //add bars into the svg
     g.selectAll("rect")
         .data(data)
         .enter()
         .append("rect")
         .attr("y", d => yScale(d[0]))
+        .attr("height", yScale.bandwidth())
+        .transition()
+        .duration(1000)
         .attr("width",d => xScale(d[1]))
-        .attr("height", yScale.bandwidth());
+    
+    
+    //append the title
+    svg.append("text")
+        .attr("transform",`translate(${(margin.left+innerWidth)/2},${innerHeight + margin.bottom/2})`)
+        .text(xTitle)
+        .attr("fill","#b3ecff")
+        .attr("font-size","30px");
     
 }
 

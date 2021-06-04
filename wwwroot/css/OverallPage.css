@@ -1,9 +1,18 @@
 ﻿#OverallDataSelectors{
     text-align: center;
     font: 20px "Lucida Console";
-    margin-top: 30px;
+    margin-top: 40px;
 }
-#bar{
-    text-align: center;
-    margin-top: 500px;
+svg{
+    margin-top: 50px;
+}
+rect{
+    fill: #254BBB;
+}
+.tick text{
+    font: 20px "Lucida Console";
+    color: #9EAFCD;
+}
+.tick line{
+    stroke: silver;
 }
