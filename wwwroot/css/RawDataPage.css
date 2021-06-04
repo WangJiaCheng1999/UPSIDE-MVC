@@ -1,0 +1,23 @@
+﻿table {
+    border-spacing: 0;
+    margin: auto;
+    border: 1px solid #c0c0c0;
+    width: 300px;
+}
+td {
+    text-align: center;
+    border: 1px solid #d0d0d0;
+    color: #404060;
+    padding: 10px;
+    font: 14px "Lucida Console";
+}
+#formTitle{
+    margin-top:50px;
+    text-align: center;
+    font: 20px "Lucida Console";
+}
+#dataDisplay{
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
