@@ -40,7 +40,7 @@
     }
 
     svg rect {
-        fill: grey;
+        fill: steelblue;
     }
 
     svg text {
@@ -65,7 +65,7 @@
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
 
 <svg width="500" height="500" id="svg10"></svg>
-<svg width="500" height="500" id="svg11"></svg>
+<!--svg width="500" height="500" id="svg11"></svg-->
 <script>
 
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");   
@@ -87,12 +87,32 @@
         let option = "Round" + i;
         $('#RoundSelector').append(`<option value="${option}">${option} </option>`); 
     }
+
     
+
     //Get what options that user selected and show the data based on that
-   $("#RoundSelector").change(function (round){
+    $("#RoundSelector").change(function (round) {
+
+     
                  let options = $("#RoundSelector option:selected");
                  roundSelected = options.val() + ".json";
-                 PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/"+roundSelected, "#svg10"); 
+                     
+
+                 if ($("#svg10").html() !== null) {
+                       $("#svg10").html("");
+                 }
+                 PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/" + roundSelected, "#svg10");
+
+                 if ($("#svg20").html() !== null) {
+                       $("#svg20").html("");
+                 }
+                 BarInit(width01, height01, padding01, rectHeight, rectPadding, "/JData/" + roundSelected, "#svg20");
+
+                 if ($("#svg30").html() !== null) {
+                      $("#svg30").html("");
+                 }
+                 SortBar(width, height, margin, innerWidth, innerHeight, xText, topText, "/JData/" + roundSelected, "#svg30");
+
                  console.log(roundSelected);
              });
     
@@ -104,9 +124,7 @@
     }
     
     var filename = "/JData/" + roundSelected + ".json";
-    
-
-    
+       
 
     function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
         d3.json(filename, function (error, data10) {
@@ -151,7 +169,7 @@
 
             arcs.append('path')
                 .attr('fill', function (d, i) {
-                    return colors[i + 2];                   //purple,green,red
+                    return colors[i];                   //purple,green,red
                 })
                 .attr('d', function (d) {
                     return arc(d);
@@ -202,7 +220,7 @@
 </script>
 
 <svg width="500" height="500" id="svg20"></svg>
-<svg width="500" height="500" id="svg21"></svg>
+<svg width="200" height="500" id="svg21"></svg>
 
 <script>
 
@@ -217,8 +235,8 @@
     var rectHeight = 25;
     var rectPadding = 4;
 
-    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg20");
-    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename2, "#svg21");
+    //BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg20");
+    //BarInit(width01, height01, padding01, rectHeight, rectPadding, filename2, "#svg21");
 
     function BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, svg_id) {
 
@@ -371,21 +389,26 @@
     var yValue = (datum) => { return datum.Round };
     var xText = "Time Used";
     var topText = "Speed Ranking";
-    d3.json(filename, function (dataset) {
-        dataset.forEach(datum => {
-            datum.TimeUse = +(datum.TimeUse);
-        });
 
-        //Sort the dataset by ascending order
-        dataset = dataset.sort((a, b) => {
-            return d3.ascending(+a.TimeUse, +b.TimeUse)
-        });
+    //SortBar(width, height, margin, innerWidth, innerHeight, xText, topText, filename, "#svg30");
 
-        console.log(dataset);
-        console.log(dataset.map((datum) => { return datum.Round; }))
-        ascendingBar(dataset, xText, topText);
-    });
-    
+    function SortBar(width, heigth, margin, innerWidth, innerHeight, xText, topText, filename, svg_id) {
+        d3.json(filename, function (dataset) {
+            dataset.forEach(datum => {
+                datum.TimeUse = +(datum.TimeUse);
+            });
+
+            //Sort the dataset by ascending order
+            dataset = dataset.sort((a, b) => {
+                return d3.ascending(+a.TimeUse, +b.TimeUse)
+            });
+
+            console.log(dataset);
+            console.log(dataset.map((datum) => { return datum.Round; }))
+            ascendingBar(dataset, xText, topText);
+        });
+    }
+
     function ascendingBar(data, xText, topText) {
         
         // Linear Scale: Data Space -> Screen Space;
