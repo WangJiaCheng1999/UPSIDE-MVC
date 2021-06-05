@@ -50,6 +50,16 @@
     }
 </style>
 
+<div class="row justify-content-start" id="DataPageSelectors">
+    <div class="col-6">
+        File Name  <select id="RoundSelector"></select>
+    </div>
+
+</div>
+<script>
+
+
+</script>
 
 
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
@@ -57,6 +67,10 @@
 <svg width="500" height="500" id="svg10"></svg>
 <svg width="500" height="500" id="svg11"></svg>
 <script>
+
+    let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");   
+    let roundSelected = 0;
+        
     //var width10 = 500;
     //var height10 = 500;
     var itemCount10 = 0;
@@ -67,16 +81,32 @@
     var pie_item1 = "Local";                                                // replace with what item name ?
     var pie_item2 = "Global";                                               //
     var pie_item3 = "Neither";                                              //
+                                   
+    //Add options into the selector
+    for (let i = 1; i <= fileCount; i++){    
+        let option = "Round" + i;
+        $('#RoundSelector').append(`<option value="${option}">${option} </option>`); 
+    }
+    
+    //Get what options that user selected and show the data based on that
+   $("#RoundSelector").change(function (round){
+                 let options = $("#RoundSelector option:selected");
+                 roundSelected = options.val() + ".json";
+                 PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/"+roundSelected, "#svg10"); 
+                 console.log(roundSelected);
+             });
+    
+         
+     // selected_id should get from the raw_data sheet
 
-    var selected_id = 2;                                                    // selected_id should get from the raw_data sheet
-    var filepath = "/JData/";
-    var filename = filepath + "Round" + selected_id + ".json";
-    console.log("Round i = " + filename);
+    if (roundSelected === 0){
+           roundSelected = "Round1"; 
+    }
+    
+    var filename = "/JData/" + roundSelected + ".json";
+    
 
-    var filename2 = filepath + "Round3.json";                        //test
-
-    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename, "#svg10");       //demo 1
-    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename2, "#svg11");       //demo 2 in another svg
+    
 
     function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
         d3.json(filename, function (error, data10) {
@@ -323,6 +353,91 @@
                 });
         });
     }
+</script>
+
+<svg width="600" height="500" id="svg30" class="svgs"></svg>
+<script>
+    var svg30 = d3.select('#svg30');
+    
+    var width = +svg30.attr('width');
+    var height = +svg30.attr('height');
+    
+    var margin = { top: 60, right: 30, bottom: 60, left: 150 };
+    
+    var innerWidth = width - margin.left - margin.right;
+    var innerHeight = height - margin.top - margin.bottom;
+    
+    var xValue = (datum) => { return datum.TimeUse };
+    var yValue = (datum) => { return datum.Round };
+    var xText = "Time Used";
+    var topText = "Speed Ranking";
+    d3.json(filename, function (dataset) {
+        dataset.forEach(datum => {
+            datum.TimeUse = +(datum.TimeUse);
+        });
+
+        //Sort the dataset by ascending order
+        dataset = dataset.sort((a, b) => {
+            return d3.ascending(+a.TimeUse, +b.TimeUse)
+        });
+
+        console.log(dataset);
+        console.log(dataset.map((datum) => { return datum.Round; }))
+        ascendingBar(dataset, xText, topText);
+    });
+    
+    function ascendingBar(data, xText, topText) {
+        
+        // Linear Scale: Data Space -> Screen Space;
+        var xScale = d3.scaleLinear()
+            .domain([0, d3.max(data, xValue)])
+            .range([0, innerWidth]);
+        
+        // Introducing y-Scale;
+        var yScale = d3.scaleBand()
+            .domain(data.map(yValue))
+            .range([0, innerHeight])
+            .padding(0.1);
+        
+        // Transform to (left,top)
+        var g = svg30.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.top})`);
+        
+        // data join with enter()
+        g.selectAll('rect')
+            .data(data)
+            .enter()
+            .append('rect')
+            .attr('y', datum => yScale(yValue(datum)))
+            .attr('width', (datum) => { return xScale(xValue(datum)) }) // use xSacle to re-scale data space (domain) and return the rescaled population;
+            .attr('height', yScale.bandwidth())
+            .attr('fill', 'steelblue')
+            
+        // Adding axes;
+        var yAxis = d3.axisLeft(yScale);
+        var xAxis = d3.axisBottom(xScale)
+            .tickFormat(d3.format(''))             //show original number
+            .tickSize(-innerHeight);
+        let yAxisGroup = g.append('g').call(yAxis);
+        yAxisGroup.selectAll('.domain, .tick line').remove();
+        let xAxisGroup = g.append('g').call(xAxis)
+            .attr('transform', `translate(${0}, ${innerHeight})`);
+        
+        xAxisGroup.append('text')
+            .attr('y', 50)
+            .attr('x', innerWidth / 2)
+            .attr('fill', 'black').text(xText)
+            .attr('id', 'TimeUse');
+        
+        xAxisGroup.selectAll('.domain').remove();
+        
+        // Adding a title;
+        g.append('text')
+            .text(topText)
+            .attr('y', -10)
+            .attr('x', 80);
+    }
+
 </script>
 
 
