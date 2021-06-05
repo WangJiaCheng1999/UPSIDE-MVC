@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "DataPage";
-    
+
 }
 <style>
     .arc text {
@@ -64,50 +64,53 @@
 
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
 
-<svg width="500" height="500" id="svg10"></svg>
-<!--svg width="500" height="500" id="svg11"></svg-->
+<svg width="100" height="500" id="svg5" class="svgs"></svg>
+<svg width="500" height="500" id="svg10" class="svgs"></svg>
+<svg width="100" height="500" id="svg11" class="svgs"></svg>
+<svg width="500" height="500" id="svg20" class="svgs"></svg>
+<svg width="100" height="500" id="svg21" class="svgs"></svg>
+<svg width="600" height="500" id="svg30" class="svgs"></svg>
+
 <script>
 
-    let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");   
+    let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");
     let roundSelected = 0;
-        
-    //var width10 = 500;
-    //var height10 = 500;
+
     var itemCount10 = 0;
     var pie_item1_count = 0;
     var pie_item2_count = 0;
     var pie_item3_count = 0;
 
-    var pie_item1 = "Local";                                                // replace with what item name ?
-    var pie_item2 = "Global";                                               //
-    var pie_item3 = "Neither";                                              //
-                                   
+    var pie_item1 = "Local";                                                // show in pie chart
+    var pie_item2 = "Global";                                               
+    var pie_item3 = "Neither";                                              
+
     //Add options into the selector
-    for (let i = 1; i <= fileCount; i++){    
+    for (let i = 1; i <= fileCount; i++){
         let option = "Round" + i;
-        $('#RoundSelector').append(`<option value="${option}">${option} </option>`); 
+        $('#RoundSelector').append(`<option value="${option}">${option} </option>`);
     }
 
-    
 
     //Get what options that user selected and show the data based on that
     $("#RoundSelector").change(function (round) {
 
-     
                  let options = $("#RoundSelector option:selected");
                  roundSelected = options.val() + ".json";
-                     
 
+                 // Clear svg and show pie chart
                  if ($("#svg10").html() !== null) {
                        $("#svg10").html("");
                  }
-                 PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/" + roundSelected, "#svg10");
+                 PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/" + roundSelected, "#svg20");
 
+                 // Clear svg and show bar chart
                  if ($("#svg20").html() !== null) {
                        $("#svg20").html("");
                  }
-                 BarInit(width01, height01, padding01, rectHeight, rectPadding, "/JData/" + roundSelected, "#svg20");
+                 BarInit(width01, height01, padding01, rectHeight, rectPadding, "/JData/" + roundSelected, "#svg10");
 
+                 // Clear svg and show sortbar chart
                  if ($("#svg30").html() !== null) {
                       $("#svg30").html("");
                  }
@@ -115,16 +118,16 @@
 
                  console.log(roundSelected);
              });
-    
-         
-     // selected_id should get from the raw_data sheet
 
+ 
     if (roundSelected === 0){
-           roundSelected = "Round1"; 
+           roundSelected = "Round1";
     }
-    
-    var filename = "/JData/" + roundSelected + ".json";
-       
+
+    //var filename = "/JData/" + roundSelected + ".json";
+    var filename = "/JData/Round1.json";                    // initial with Round1,json
+
+    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename, "#svg20");
 
     function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
         d3.json(filename, function (error, data10) {
@@ -153,9 +156,8 @@
                 .outerRadius(outerRadius10)
                 .innerRadius(innerRadius10);
 
-            var colors = d3.schemeCategory10;
+            var colors = d3.schemeCategory20;
 
-            //var svg10 = d3.select("#svg10")
             var svg10 = d3.select(svg_id)
                 .append('svg')
                 .attr('width', width10)
@@ -165,11 +167,11 @@
                 .data(piedata)
                 .enter()
                 .append('g')
-                .attr('transform', 'translate(' + width10 / 2 + ',' + height10 / 2 + ')');
+                .attr('transform', 'translate(' + (width10 / 2+10) + ',' + height10 / 2 + ')');
 
             arcs.append('path')
                 .attr('fill', function (d, i) {
-                    return colors[i];                   //purple,green,red
+                    return colors[i];                  
                 })
                 .attr('d', function (d) {
                     return arc(d);
@@ -177,8 +179,8 @@
 
             arcs.append('text')
                 .attr('transform', function (d, i) {
-                    var x10 = arc.centroid(d)[0] * 2.5;     //2.8@circle
-                    var y10 = arc.centroid(d)[1] * 2.5;     //2.8@circle
+                    var x10 = arc.centroid(d)[0] * 2.5;    
+                    var y10 = arc.centroid(d)[1] * 2.5;    
                     if (i === 4) {
                         return 'translate(' + (x10 * 1.2) + ', ' + (y10 * 1.2) + ')';
                     } else if (i === 3) {
@@ -200,8 +202,8 @@
 
             arcs.append('line')
                 .attr('stroke', 'black')
-                .attr('x1', function (d) { return arc.centroid(d)[0] * 1.65; })      //2@circle
-                .attr('y1', function (d) { return arc.centroid(d)[1] * 1.65; })      //2@circle
+                .attr('x1', function (d) { return arc.centroid(d)[0] * 1.65; })     
+                .attr('y1', function (d) { return arc.centroid(d)[1] * 1.65; })    
                 .attr('x2', function (d, i) {
                     if (i === 4) {
                         return arc.centroid(d)[0] * 3.2;
@@ -219,9 +221,6 @@
 
 </script>
 
-<svg width="500" height="500" id="svg20"></svg>
-<svg width="200" height="500" id="svg21"></svg>
-
 <script>
 
     var padding01 = {
@@ -235,8 +234,7 @@
     var rectHeight = 25;
     var rectPadding = 4;
 
-    //BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg20");
-    //BarInit(width01, height01, padding01, rectHeight, rectPadding, filename2, "#svg21");
+    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg10");
 
     function BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, svg_id) {
 
@@ -276,8 +274,8 @@
             //    .attr('transform', 'translate(' + (width01 / 2) + ',' + (-padding01.top / 2) + ')')
             //    .attr('text-anchor', 'middle')
             //    .attr('font-weight', 300)
-            //    .text('Dynamic Bar Chart')
-            //    .attr('font-size', '3em');           // no effect ?
+            //    .text('Round-Time Bar Chart')
+            //    .attr('font-size', '3em');          
 
             // add X axis
             g.append('g')
@@ -316,7 +314,7 @@
                 })
                 .duration(2000)
                 .ease(d3.easeBounceIn)
-                
+
                 //animation finish
                 .attr('y', function (d) {
                     return yScale(d.TimeUse);
@@ -346,7 +344,7 @@
                 })
                 .duration(1000)
                 .ease(d3.easeBounceIn)
-                
+
                 //animation finish
                 .attr('y', function (d) {
                     return yScale(d.TimeUse);
@@ -373,24 +371,19 @@
     }
 </script>
 
-<svg width="600" height="500" id="svg30" class="svgs"></svg>
 <script>
     var svg30 = d3.select('#svg30');
-    
     var width = +svg30.attr('width');
     var height = +svg30.attr('height');
-    
     var margin = { top: 60, right: 30, bottom: 60, left: 150 };
-    
     var innerWidth = width - margin.left - margin.right;
     var innerHeight = height - margin.top - margin.bottom;
-    
     var xValue = (datum) => { return datum.TimeUse };
     var yValue = (datum) => { return datum.Round };
     var xText = "Time Used";
     var topText = "Speed Ranking";
 
-    //SortBar(width, height, margin, innerWidth, innerHeight, xText, topText, filename, "#svg30");
+    SortBar(width, height, margin, innerWidth, innerHeight, xText, topText, filename, "#svg30");
 
     function SortBar(width, heigth, margin, innerWidth, innerHeight, xText, topText, filename, svg_id) {
         d3.json(filename, function (dataset) {
@@ -410,50 +403,50 @@
     }
 
     function ascendingBar(data, xText, topText) {
-        
+
         // Linear Scale: Data Space -> Screen Space;
         var xScale = d3.scaleLinear()
             .domain([0, d3.max(data, xValue)])
             .range([0, innerWidth]);
-        
+
         // Introducing y-Scale;
         var yScale = d3.scaleBand()
             .domain(data.map(yValue))
             .range([0, innerHeight])
             .padding(0.1);
-        
+
         // Transform to (left,top)
         var g = svg30.append('g')
             .attr('transform', `translate(${margin.left}, ${margin.top})`);
-        
+
         // data join with enter()
         g.selectAll('rect')
             .data(data)
             .enter()
             .append('rect')
             .attr('y', datum => yScale(yValue(datum)))
-            .attr('width', (datum) => { return xScale(xValue(datum)) }) // use xSacle to re-scale data space (domain) and return the rescaled population;
+            .attr('width', (datum) => { return xScale(xValue(datum)) }) 
             .attr('height', yScale.bandwidth())
             .attr('fill', 'steelblue')
-            
+
         // Adding axes;
         var yAxis = d3.axisLeft(yScale);
         var xAxis = d3.axisBottom(xScale)
-            .tickFormat(d3.format(''))             //show original number
+            .tickFormat(d3.format(''))             //format('') show original number
             .tickSize(-innerHeight);
         let yAxisGroup = g.append('g').call(yAxis);
         yAxisGroup.selectAll('.domain, .tick line').remove();
         let xAxisGroup = g.append('g').call(xAxis)
             .attr('transform', `translate(${0}, ${innerHeight})`);
-        
+
         xAxisGroup.append('text')
             .attr('y', 50)
             .attr('x', innerWidth / 2)
             .attr('fill', 'black').text(xText)
             .attr('id', 'TimeUse');
-        
+
         xAxisGroup.selectAll('.domain').remove();
-        
+
         // Adding a title;
         g.append('text')
             .text(topText)
