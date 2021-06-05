@@ -40,13 +40,14 @@ namespace MvcTest.Controllers
         }
         
         //Open Unity application
-        public void OpenUnity()
+        public IActionResult OpenUnity()
         {
             Process.Start("C:/Users/Administrator/Desktop/UnityExperiment/UnityExperiment.exe");
+            
+            return RedirectToAction("Index");
         }
 
         
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

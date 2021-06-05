@@ -36,11 +36,8 @@
     let imageTypeSummary = getImageAccuracyMap(allData);
 
     let timeUseData = Array.from(aveTimeUse.values());
-    console.log(aveTimeUse)
-    
-    d3.select("#bar").attr("transform",`translate(500,500)`);
-    
-    createHorizontalBarchart("svg",750,750,0,0,aveAccuracy,"AveTime");
+ 
+    createHorizontalBarchart("svg",750,750,0,0,aveTimeUse,"Accuracy");
        
     
 </script>
