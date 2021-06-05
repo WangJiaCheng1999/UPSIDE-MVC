@@ -1,0 +1,66 @@
+﻿
+.arc text {
+    font: 16px arial;
+    text-anchor: middle;
+}
+
+.arc path {
+    stroke: #fff;
+}
+
+.title {
+    font: 20px arial;
+    fill: darkblue;
+    font-weight: bold;
+}
+
+.line {
+    fill: none;
+    stroke: blueviolet;
+    stroke-width: 3px;
+}
+
+.bar {
+    fill: lightblue;
+}
+
+.highlight {
+    fill: red;
+}
+
+.title {
+    fill: blue;
+    font-weight: bold;
+}
+
+svg rect {
+    fill: steelblue;
+}
+
+svg text {
+    fill: black;
+    font: 12px sans-serif;
+    text-anchor: end;
+}
+/* 创建三个相等的列 */
+.column {
+    float: left;
+    width: 31%;
+}
+
+/* 列后清除浮动 */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+
+@media screen and (max-width: 1500px) {
+    .column {
+        width: 100%;
+    }
+}
+
+
