@@ -1,0 +1,11 @@
+﻿@using MvcTest.wwwroot.cSharpFunction
+@model StateManagement.Models.StudentModel
+@{
+    ViewData["Title"] = "Configration";
+
+}
+@using (Html.BeginForm("Configration", "Home", FormMethod.Post))
+{
+    <input type="text" name="StudentName" />
+    <input type="submit" value="Submit" />
+}
