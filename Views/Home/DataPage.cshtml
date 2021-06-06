@@ -4,65 +4,28 @@
     ViewData["Title"] = "DataPage";
 
 }
-<style>
-    .arc text {
-        font: 16px arial;
-        text-anchor: middle;
-    }
 
-    .arc path {
-        stroke: #fff;
-    }
-
-    .title {
-        font: 20px arial;
-        fill: darkblue;
-        font-weight: bold;
-    }
-
-    .line {
-        fill: none;
-        stroke: blueviolet;
-        stroke-width: 3px;
-    }
-
-    .bar {
-        fill: lightblue;
-    }
-
-    .highlight {
-        fill: red;
-    }
-
-    .title {
-        fill: blue;
-        font-weight: bold;
-    }
-
-    svg rect {
-        fill: steelblue;
-    }
-
-    svg text {
-        fill: black;
-        font: 12px sans-serif;
-        text-anchor: end;
-    }
-</style>
-
-<div class="row justify-content-start" id="DataPageSelectors">
-    <div class="col-6">
-        File Name  <select id="RoundSelector"></select>
+<link href="~/css/DataPage.css" rel="stylesheet" />
+<div class="justify-content-start" style=" position: relative center" id="DataPageSelectors">
+    <div >
+        Selected File Name You Want To View  <select id="RoundSelector"></select>
     </div>
 
 </div>
-<script>
-
-
-</script>
-
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
+<div class="row">
+    <div class="column">
+        <svg width="500" height="500" id="svg10"></svg>
+    </div>
 
+    <div class="column">
+        <svg width="500" height="500" id="svg20"></svg>
+    </div>
+
+    <div class="column">
+        <svg width="600" height="500" id="svg30" class="svgs"></svg>
+    </div>
+</div>
 <svg width="100" height="500" id="svg5" class="svgs"></svg>
 <svg width="500" height="500" id="svg10" class="svgs"></svg>
 <svg width="100" height="500" id="svg15" class="svgs"></svg>
@@ -70,6 +33,7 @@
 <svg width="100" height="500" id="svg25" class="svgs"></svg>
 <svg width="600" height="500" id="svg30" class="svgs"></svg>
 
+<!--svg width="500" height="500" id="svg11"></svg-->
 <script>
 
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");        //file count
@@ -106,6 +70,7 @@
     //Get what options that user selected and show the data based on that
     $("#RoundSelector").change(function (round) {
 
+
                  let options = $("#RoundSelector option:selected");
                  roundSelected = options.val() + ".json";
 
@@ -121,7 +86,6 @@
                  }
                  BarInit(width10, height10, bar_margin, "/JData/" + roundSelected, "#svg10");
 
-                 // Clear svg and show sortbar chart
                  if ($("#svg30").html() !== null) {
                       $("#svg30").html("");
                  }

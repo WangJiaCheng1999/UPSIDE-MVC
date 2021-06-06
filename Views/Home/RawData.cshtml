@@ -3,51 +3,51 @@
 }
 @using MvcTest.wwwroot.cSharpFunction
 <link href="~/css/RawDataPage.css" rel="stylesheet" />
-<h2 id="formTitle">Please select the 
-    <select id="dataSelector" >Data Selector</select> 
+<h2 id="formTitle">
+    Please select the
+    <select id="dataSelector">Data Selector</select>
     you want to review
 </h2>
 <div id="dataDisplay" class="align-content-center"></div>
 
-
 <script>
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");
     let allData = getAllData(fileCount);
-    
+
     //Add options into the selector
-    for (let i = 1; i <= allData.size; i++){    
+    for (let i = 1; i <= allData.size; i++){
         let option = "Round" + i;
-        $('#dataSelector').append(`<option value="${option}">${option} </option>`); 
+        $('#dataSelector').append(`<option value="${option}">${option} </option>`);
         console.log(allData.get(option));
     }
-    
+
     showData("Round1");
-    
+
     //Get what options that user selected and show the data based on that
    $("#dataSelector").change(function (round){
        let options = $("#dataSelector option:selected");
        showData(options.val());
    });
-   
-   //Show the original data  
+
+   //Show the original data
     function showData(round){
         let data = allData.get(round);
-        
+
         let dataArray = [Array.from(data[0].keys())];
-        for (let i = 0; i < data.length; i++){            
+        for (let i = 0; i < data.length; i++){
             dataArray.push(Array.from(data[i].values()));
-        }      
+        }
         if ($("#dataDisplay").html() !== null){
             $("#dataDisplay").html("");
            }
-        
+
         let tr = d3.select("#dataDisplay")
-           .append("table")          
+           .append("table")
            .selectAll("tr")
            .data(dataArray)
            .enter()
-           .append("tr");         
-        
+           .append("tr");
+
         let td = tr.selectAll("td")
             .data(function (d){
                 return d;
@@ -58,5 +58,5 @@
                 return d;
             })
     }
-        
+
 </script>
