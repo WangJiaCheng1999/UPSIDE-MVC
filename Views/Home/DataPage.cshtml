@@ -61,36 +61,47 @@
 
 </script>
 
-
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
 
 <svg width="100" height="500" id="svg5" class="svgs"></svg>
 <svg width="500" height="500" id="svg10" class="svgs"></svg>
-<svg width="100" height="500" id="svg11" class="svgs"></svg>
+<svg width="100" height="500" id="svg15" class="svgs"></svg>
 <svg width="500" height="500" id="svg20" class="svgs"></svg>
-<svg width="100" height="500" id="svg21" class="svgs"></svg>
+<svg width="100" height="500" id="svg25" class="svgs"></svg>
 <svg width="600" height="500" id="svg30" class="svgs"></svg>
 
 <script>
 
-    let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");
-    let roundSelected = 0;
+    let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");        //file count
+    let roundSelected = 0;                                              //initial round
 
-    var itemCount10 = 0;
-    var pie_item1_count = 0;
-    var pie_item2_count = 0;
-    var pie_item3_count = 0;
+    var svg10 = d3.select('#svg10');                                    //bar chart
+    var svg20 = d3.select('#svg20');                                    //pie chart
+    var svg30 = d3.select('#svg30');                                    //sort bar chart
 
-    var pie_item1 = "Local";                                                // show in pie chart
+    var width10 = +svg10.attr('width');                                 //width of bar chart
+    var height10 = +svg10.attr('height');                               //height of bar chart
+    var width20 = +svg20.attr('width');                                 //width of pie chart
+    var height20 = +svg20.attr('height');                               //height of pie chart
+    var width30 = +svg30.attr('width');                                 //width of sort bar chart
+    var height30 = +svg30.attr('height');                               //height of sort bar chart
+
+    var bar_margin = { top: 50, right: 50, bottom: 30, left: 50 };      //margin of bar chart
+    var sortbar_margin = { top: 60, right: 30, bottom: 60, left: 150 }; //margin of sortbar chart
+
+    var pie_item1 = "Local";                                            //show in pie chart
     var pie_item2 = "Global";                                               
     var pie_item3 = "Neither";                                              
+
+    var bottomText = "Time Used";                                       //show in sort bar chart
+    var topText = "Speed Ranking";
+
 
     //Add options into the selector
     for (let i = 1; i <= fileCount; i++){
         let option = "Round" + i;
         $('#RoundSelector').append(`<option value="${option}">${option} </option>`);
     }
-
 
     //Get what options that user selected and show the data based on that
     $("#RoundSelector").change(function (round) {
@@ -99,37 +110,40 @@
                  roundSelected = options.val() + ".json";
 
                  // Clear svg and show pie chart
-                 if ($("#svg10").html() !== null) {
-                       $("#svg10").html("");
-                 }
-                 PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/" + roundSelected, "#svg20");
-
-                 // Clear svg and show bar chart
                  if ($("#svg20").html() !== null) {
                        $("#svg20").html("");
                  }
-                 BarInit(width01, height01, padding01, rectHeight, rectPadding, "/JData/" + roundSelected, "#svg10");
+                 PieInit(width20, height20, pie_item1, pie_item2, pie_item3, "/JData/" + roundSelected, "#svg20");
+
+                 // Clear svg and show bar chart
+                 if ($("#svg10").html() !== null) {
+                       $("#svg10").html("");
+                 }
+                 BarInit(width10, height10, bar_margin, "/JData/" + roundSelected, "#svg10");
 
                  // Clear svg and show sortbar chart
                  if ($("#svg30").html() !== null) {
                       $("#svg30").html("");
                  }
-                 SortBar(width, height, margin, innerWidth, innerHeight, xText, topText, "/JData/" + roundSelected, "#svg30");
+                 SortBar(width30, height30, sortbar_margin, bottomText, topText, "/JData/" + roundSelected, "#svg30");
 
                  console.log(roundSelected);
              });
-
  
     if (roundSelected === 0){
            roundSelected = "Round1";
     }
+    var filename = "/JData/" + roundSelected + ".json";       // initial with Round1.json
 
-    //var filename = "/JData/" + roundSelected + ".json";
-    var filename = "/JData/Round1.json";                    // initial with Round1,json
+    //initial pie chart
+    PieInit(width20, height20, pie_item1, pie_item2, pie_item3, filename, "#svg20");
 
-    PieInit(500, 500, pie_item1, pie_item2, pie_item3, filename, "#svg20");
+    function PieInit(width, height, pie_item1, pie_item2, pie_item3, filename, svg_id) {
 
-    function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
+        var pie_item1_count = 0;                                            //
+        var pie_item2_count = 0;
+        var pie_item3_count = 0;
+
         d3.json(filename, function (error, data10) {
             console.log("data10.length=" + data10.length);
             if (error) {
@@ -149,8 +163,8 @@
                 });
             var piedata = pie(dataset);
 
-            var outerRadius10 = width10 / 5;
-            var innerRadius10 = width10 / 20;
+            var outerRadius10 = width / 5;
+            var innerRadius10 = width / 20;
 
             var arc = d3.arc()
                 .outerRadius(outerRadius10)
@@ -158,16 +172,16 @@
 
             var colors = d3.schemeCategory20;
 
-            var svg10 = d3.select(svg_id)
+            var svg_pie = d3.select(svg_id)
                 .append('svg')
-                .attr('width', width10)
-                .attr('height', height10);
+                .attr('width', width)
+                .attr('height', height);
 
-            var arcs = svg10.selectAll('g')
+            var arcs = svg_pie.selectAll('g')
                 .data(piedata)
                 .enter()
                 .append('g')
-                .attr('transform', 'translate(' + (width10 / 2+10) + ',' + height10 / 2 + ')');
+                .attr('transform', 'translate(' + (width / 2+10) + ',' + height / 2 + ')');
 
             arcs.append('path')
                 .attr('fill', function (d, i) {
@@ -219,24 +233,13 @@
         });
     }
 
-</script>
+    //initial bar chart
+    BarInit(width10, height10, bar_margin, filename, "#svg10");
 
-<script>
+    function BarInit(width, height, margin, filename, svg_id) {
 
-    var padding01 = {
-        top: 50,
-        right: 50,
-        bottom: 30,
-        left: 50
-    };
-    var width01 = 500 - padding01.left - padding01.right;
-    var height01 = 500 - padding01.top - padding01.bottom;
-    var rectHeight = 25;
-    var rectPadding = 4;
-
-    BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, "#svg10");
-
-    function BarInit(width01, height01, padding01, rectHeight, rectPadding, filename, svg_id) {
+        var in_width = width - margin.left - margin.right;
+        var in_height = height - margin.top - margin.bottom;
 
         d3.json(filename, function (error, data01) {
             if (error) throw error;
@@ -257,30 +260,21 @@
             });
 
             // create xScale & yScale
-            var xScale = d3.scaleBand().domain(Xdatas).rangeRound([0, width01]).padding(0.1),
-                yScale = d3.scaleLinear().domain([0, d3.max(values)]).rangeRound([height01, 0]);
+            var xScale = d3.scaleBand().domain(Xdatas).rangeRound([0, in_width]).padding(0.1),
+                yScale = d3.scaleLinear().domain([0, d3.max(values)]).rangeRound([in_height, 0]);
 
             var svg01 = d3.select(svg_id)
-                .attr('width', width01 + padding01.left + padding01.right)
-                .attr('height', height01 + padding01.top + padding01.bottom);
+                .attr('width', in_width + margin.left + margin.right)
+                .attr('height', in_height + margin.top + margin.bottom);
 
             // append group to svg
             var g = svg01.append('g')
-                .attr('transform', 'translate(' + padding01.left + ',' + padding01.top + ')');
-
-            // add Title
-            //g.attr('class', 'headerText')
-            //    .append('text')
-            //    .attr('transform', 'translate(' + (width01 / 2) + ',' + (-padding01.top / 2) + ')')
-            //    .attr('text-anchor', 'middle')
-            //    .attr('font-weight', 300)
-            //    .text('Round-Time Bar Chart')
-            //    .attr('font-size', '3em');          
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
             // add X axis
             g.append('g')
                 .attr('class', 'axisX')
-                .attr('transform', 'translate(0,' + height01 + ')')
+                .attr('transform', 'translate(0,' + in_height + ')')
                 .call(d3.axisBottom(xScale))
                 .attr('font-weight', 'bold');
 
@@ -320,7 +314,7 @@
                     return yScale(d.TimeUse);
                 })
                 .attr('height', function (d) {
-                    return height01 - yScale(d.TimeUse);
+                    return in_height - yScale(d.TimeUse);
                 })
                 .attr('width', xScale.bandwidth());
 
@@ -369,23 +363,15 @@
                 });
         });
     }
-</script>
 
-<script>
-    var svg30 = d3.select('#svg30');
-    var width = +svg30.attr('width');
-    var height = +svg30.attr('height');
-    var margin = { top: 60, right: 30, bottom: 60, left: 150 };
-    var innerWidth = width - margin.left - margin.right;
-    var innerHeight = height - margin.top - margin.bottom;
-    var xValue = (datum) => { return datum.TimeUse };
-    var yValue = (datum) => { return datum.Round };
-    var xText = "Time Used";
-    var topText = "Speed Ranking";
+    //initial sortbar chart
+    SortBar(width30, height30, sortbar_margin, bottomText, topText, filename, "#svg30");
 
-    SortBar(width, height, margin, innerWidth, innerHeight, xText, topText, filename, "#svg30");
+    function SortBar(width, height, margin, bottomText, topText, filename, svg_id) {
 
-    function SortBar(width, heigth, margin, innerWidth, innerHeight, xText, topText, filename, svg_id) {
+        var in_width = width - margin.left - margin.right;
+        var in_height = height - margin.top - margin.bottom;
+
         d3.json(filename, function (dataset) {
             dataset.forEach(datum => {
                 datum.TimeUse = +(datum.TimeUse);
@@ -396,70 +382,61 @@
                 return d3.ascending(+a.TimeUse, +b.TimeUse)
             });
 
-            console.log(dataset);
-            console.log(dataset.map((datum) => { return datum.Round; }))
-            ascendingBar(dataset, xText, topText);
+            //console.log(dataset);
+            //console.log(dataset.map((datum) => { return datum.Round; }))
+
+            //let x=TimeUse, y=Round
+            var xValue = (datum) => { return datum.TimeUse };
+            var yValue = (datum) => { return datum.Round };
+
+            var xScale = d3.scaleLinear()
+                .domain([0, d3.max(dataset, xValue)])
+                .range([0, in_width]);
+
+            var yScale = d3.scaleBand()
+                .domain(dataset.map(yValue)) 
+                .range([0, in_height])
+                .padding(0.1);
+
+            // append svg and transform to (left,top)
+            var g = d3.select(svg_id).append('g')
+                .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+            // append rects  
+            g.selectAll('rect')
+                .data(dataset)
+                .enter()
+                .append('rect')
+                .attr('y', datum => yScale(yValue(datum)))
+                .attr('width', (datum) => { return xScale(xValue(datum)) })
+                .attr('height', yScale.bandwidth())
+                .attr('fill', 'steelblue')
+
+            // X & Y axes;
+            var yAxis = d3.axisLeft(yScale);
+            var xAxis = d3.axisBottom(xScale)
+                .tickFormat(d3.format(''))             //format('') show original number
+                .tickSize(-in_height);
+
+            let yAxisGroup = g.append('g').call(yAxis);
+            yAxisGroup.selectAll('.domain, .tick line').remove();
+            let xAxisGroup = g.append('g').call(xAxis)
+                .attr('transform', `translate(${0}, ${in_height})`);
+
+            xAxisGroup.append('text')
+                .attr('y', 50)
+                .attr('x', in_width / 2)
+                .attr('fill', 'black').text(bottomText)
+                .attr('id', 'TimeUse');
+
+            xAxisGroup.selectAll('.domain').remove();
+
+            //title in the top
+            g.append('text')
+                .text(topText)
+                .attr('y', -10)
+                .attr('x', 80);
         });
     }
 
-    function ascendingBar(data, xText, topText) {
-
-        // Linear Scale: Data Space -> Screen Space;
-        var xScale = d3.scaleLinear()
-            .domain([0, d3.max(data, xValue)])
-            .range([0, innerWidth]);
-
-        // Introducing y-Scale;
-        var yScale = d3.scaleBand()
-            .domain(data.map(yValue))
-            .range([0, innerHeight])
-            .padding(0.1);
-
-        // Transform to (left,top)
-        var g = svg30.append('g')
-            .attr('transform', `translate(${margin.left}, ${margin.top})`);
-
-        // data join with enter()
-        g.selectAll('rect')
-            .data(data)
-            .enter()
-            .append('rect')
-            .attr('y', datum => yScale(yValue(datum)))
-            .attr('width', (datum) => { return xScale(xValue(datum)) }) 
-            .attr('height', yScale.bandwidth())
-            .attr('fill', 'steelblue')
-
-        // Adding axes;
-        var yAxis = d3.axisLeft(yScale);
-        var xAxis = d3.axisBottom(xScale)
-            .tickFormat(d3.format(''))             //format('') show original number
-            .tickSize(-innerHeight);
-        let yAxisGroup = g.append('g').call(yAxis);
-        yAxisGroup.selectAll('.domain, .tick line').remove();
-        let xAxisGroup = g.append('g').call(xAxis)
-            .attr('transform', `translate(${0}, ${innerHeight})`);
-
-        xAxisGroup.append('text')
-            .attr('y', 50)
-            .attr('x', innerWidth / 2)
-            .attr('fill', 'black').text(xText)
-            .attr('id', 'TimeUse');
-
-        xAxisGroup.selectAll('.domain').remove();
-
-        // Adding a title;
-        g.append('text')
-            .text(topText)
-            .attr('y', -10)
-            .attr('x', 80);
-    }
-
 </script>
-
-
-
-
-
-
-
-
