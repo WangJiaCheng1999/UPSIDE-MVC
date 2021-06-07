@@ -42,20 +42,16 @@ svg text {
     font: 12px sans-serif;
     text-anchor: end;
 }
-/* 创建三个相等的列 */
+
+
 .column {
     float: left;
-    width: 31%;
+    width: 33%;
 }
 
-/* 列后清除浮动 */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+.h2{
+    left:10px;
 }
-
-
 
 @media screen and (max-width: 1500px) {
     .column {
