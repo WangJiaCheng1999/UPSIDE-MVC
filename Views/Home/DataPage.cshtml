@@ -90,24 +90,17 @@
     
     //Get what options that user selected and show the data based on that
    $("#RoundSelector").change(function (round){
-                 let options = $("#RoundSelector option:selected");
-                 roundSelected = options.val() + ".json";
-                 PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/"+roundSelected, "#svg10"); 
-                 console.log(roundSelected);
-             });
-    
+         let options = $("#RoundSelector option:selected");
+         roundSelected = options.val() + ".json";
          
-     // selected_id should get from the raw_data sheet
-
-    if (roundSelected === 0){
-           roundSelected = "Round1"; 
-    }
-    
-    var filename = "/JData/" + roundSelected + ".json";
-    
-
-    
-
+         if ($("#svg10").html() !== null){
+             $("#svg10").html("");
+            }
+         
+         PieInit(500, 500, pie_item1, pie_item2, pie_item3, "/JData/"+roundSelected, "#svg10"); 
+         console.log(roundSelected);
+     });
+ 
     function PieInit(width10, height10, pie_item1, pie_item2, pie_item3, filename, svg_id) {
         d3.json(filename, function (error, data10) {
             console.log("data10.length=" + data10.length);

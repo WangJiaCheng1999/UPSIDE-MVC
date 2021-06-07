@@ -17,6 +17,8 @@
     <Content Remove="wwwroot\js\AnalyzeFactory.js" />
     <Content Remove="Views\Home\OverAllAnalyze.cshtml" />
     <Content Remove="wwwroot\css\OverallPage.css~17c4741... HorizontalBarchart done" />
+    <Content Remove="wwwroot\csv\employee.csv" />
+    <Content Remove="wwwroot\css\test.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,10 @@
 
   <ItemGroup>
     <None Remove="Views\Home\OverallPage.cshtml~af4ffd6... Bug fixed on OpenUnity button" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\csv" />
   </ItemGroup>
 
 

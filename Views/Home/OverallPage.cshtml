@@ -12,20 +12,25 @@
         Types of Data Visualization <select id="visualTypeSelector"></select>
     </div>
 </div>
-<svg></svg>
+
+<svg id="my_dataviz"></svg>
 
 
+<script>
+
+    $('#dataTypeSelector').append(`<option>Average Time Use</option>`)
+                          .append(`<option>Average Accuracy</option>`)
+                          .append(`<option>Image Accuracy</option>`)
+                          .append(`<option>Image Count</option>`);
+    
+    $('#visualTypeSelector').append(`<option>Bar Chart</option>`)
+                            .append(`<option>Pie Chart</option>`);
+        
+</script>
 
 
 <script>
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");
-
-    $('#dataTypeSelector').append(`<option>Average Time Use</option>`);
-    $('#dataTypeSelector').append(`<option>Average Accuracy</option>`);
-    $('#dataTypeSelector').append(`<option>Image Accuracy</option>`);
-    
-    $('#visualTypeSelector').append(`<option>Bar Chart</option>`);
-    $('#visualTypeSelector').append(`<option>Pie Chart</option>`);
     
     //All data from the JSON files
     let allData = getAllData(fileCount);
@@ -35,9 +40,69 @@
     let aveAccuracy = getAveAccuracyMap(allData);
     let imageTypeSummary = getImageAccuracyMap(allData);
 
-    let timeUseData = Array.from(aveTimeUse.values());
- 
-    createHorizontalBarchart("svg",750,750,0,0,aveTimeUse,"Accuracy");
-       
+    let imageCount = getOverallImageType(allData);
+    let imageAccuracy= getOverallImageAccuracy(allData);
+    
+    // console.log(allData);
+    // console.log(aveTimeUse);
+    // console.log(aveAccuracy);
+    // console.log(imageTypeSummary);
+    console.log(imageCount);
+    console.log(imageAccuracy);
+
+    
+ // createHorizontalBarchart("svg",750,750,0,0,aveTimeUse,"Accuracy");
+    //createInteractivePieChart("#my_dataviz",700,700,aveTimeUse);
+    
+    //Initial visualization
+    dataViz("Average Time Use", "Bar Chart");
+    
+    $("#dataTypeSelector,#visualTypeSelector").change(function (){
+        //What user has selected
+        let dataOptions = $("#dataTypeSelector option:selected");
+        let vizOptions = $("#visualTypeSelector option:selected");
+        
+        //Show the graph
+        dataViz(dataOptions.val(), vizOptions.val());
+    })
+    
+    function dataViz(dataType,VisualType){
+        
+        //Clear the svg area
+        if ($("#my_dataviz").html() !== null){
+            $("#my_dataviz").html("");
+           }
+        
+        if (VisualType === "Bar Chart"){
+            if (dataType === "Average Time Use"){
+                createHorizontalBarchart("#my_dataviz",750,750,0,0,aveTimeUse,"Time Use");
+            }            
+            if (dataType === "Average Accuracy"){
+                createHorizontalBarchart("#my_dataviz",750,750,0,0,aveAccuracy,"Accuracy");
+            }            
+            if (dataType === "Image Accuracy"){
+                 createHorizontalBarchart("#my_dataviz",750,750,0,0,imageAccuracy,"Accuracy");
+            }            
+            if (dataType === "Image Count"){
+                 createHorizontalBarchart("#my_dataviz",750,750,0,0,imageCount,"Accuracy");
+            }
+            
+        }        
+        if (VisualType === "Pie Chart"){
+            if (dataType === "Average Time Use"){
+                createInteractivePieChart("#my_dataviz",700,700,aveTimeUse);
+            }            
+            if (dataType === "Average Accuracy"){
+                createInteractivePieChart("#my_dataviz",700,700,aveAccuracy);
+            }            
+            if (dataType === "Image Accuracy"){
+                createInteractivePieChart("#my_dataviz",700,700,imageAccuracy);
+            }
+            if (dataType === "Image Count"){
+                createInteractivePieChart("#my_dataviz",700,700,imageCount);
+            }
+        }    
+        
+    }
     
 </script>

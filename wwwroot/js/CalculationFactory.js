@@ -58,6 +58,65 @@ function getAveAccuracyMap(allData) {
     return aveAccuracyMap;
 }
 
+//Get overall image count
+function  getOverallImageType(allData){
+    let imageTypeCount = new Map();
+    let global = 0;
+    let local = 0;
+    let neither = 0;
+    
+    for (value of allData.values()) {
+        for (let m of value) {
+            if(m.get("ImageType") === "Local"){
+                local += 1;
+            }            
+            if(m.get("ImageType") === "Global"){
+                global += 1;
+            }            
+            if(m.get("ImageType") === "Neither"){
+               neither += 1; 
+            }
+        }
+    }
+    
+    imageTypeCount.set("Global",global);
+    imageTypeCount.set("Local",local);
+    imageTypeCount.set("Neither",neither);
+    
+    return imageTypeCount;
+}
+
+//Get Overall Image Accuracy
+function getOverallImageAccuracy(allData){
+    let overallCount = getOverallImageType(allData);
+    let imageAccuracy = new Map();
+    
+    let global = 0;
+    let local = 0;
+    let neither = 0;
+
+    for (value of allData.values()) {
+        for (let m of value) {
+            if(m.get("ImageType") === "Local" && m.get("Success") === true){
+                local += 1;
+            }
+            if(m.get("ImageType") === "Global" && m.get("Success") === true){
+                global += 1;
+            }
+            if(m.get("ImageType") === "Neither" && m.get("Success") === true){
+                neither += 1;
+            }
+        }
+    }
+    
+    imageAccuracy.set("Global",global/overallCount.get("Global"));
+    imageAccuracy.set("Local",local/overallCount.get("Local"));
+    imageAccuracy.set("Neither",neither/overallCount.get("Neither"));
+    
+    return imageAccuracy;
+}
+
+
 //Return a map that contain the count of different image types in allData and the accuracy of those different
 //types of images
 function getImageAccuracyMap(allData){
@@ -183,7 +242,7 @@ function getAllData(TotalRound) {
             }
         });
     }
-
+    
     return dataList;
 }
 

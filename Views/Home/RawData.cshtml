@@ -37,6 +37,7 @@
         for (let i = 0; i < data.length; i++){            
             dataArray.push(Array.from(data[i].values()));
         }      
+        
         if ($("#dataDisplay").html() !== null){
             $("#dataDisplay").html("");
            }
@@ -56,7 +57,7 @@
             .append("td")
             .text(function (d){
                 return d;
-            })
+            });
     }
         
 </script>

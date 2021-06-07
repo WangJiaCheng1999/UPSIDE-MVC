@@ -3,12 +3,12 @@ This class is used for create different types of charts
 This file contain all D3.jS script will be used in DataPage
  */
 
-//Create a horizontal barchart based on round
+//Create a horizontal barchart
 function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data,xTitle){
     //set width and height of bar chart
     let svg = d3.select(className)
-            .attr("width",svgWidth)
-            .attr("height",svgHeight);
+        .attr("width",svgWidth)
+        .attr("height",svgHeight);
     
     //Gaps between the barchart and svg
     let margin = { top: 0, right: 30, bottom:100, left: 100};
@@ -60,10 +60,8 @@ function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data,xTitle){
         .call(d3.axisBottom(xScale).tickFormat(d3.format(valueType)).tickSize(-innerHeight))
         .attr('transform',`translate(0,${innerHeight})`);
     
-    
     xAxis.select(".domain")
         .remove();
-    
     
     //add bars into the svg
     g.selectAll("rect")
@@ -86,110 +84,53 @@ function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data,xTitle){
     
 }
 
-//Create a pie chart with given class name and other critical elements
-function createPieChart(className,width,height,data){
+function createInteractivePieChart(className,width,height,data){
+    
+    // Creates sources <svg> element
+    let svg = d3.select(className)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height);
 
-    var width10 = 600;
-    var height10 = 600;
-    var itemCount10 = 0;
-    var localCount = 0;
-    var globalCount = 0;
-    var neitherCount = 0;
+    let g = svg.append("g")
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    var filepath = "https://"+window.location.host+"/JData/Round1.json";
-
-
-    d3.json(filepath, function (error, data10) {
-        console.log("data10.length=" + data10.length);
-        if (error) {
-            throw error;
-        }
-
-        localCount = parseInt(data10.filter((res) => { return res.ImageType === "Local" }).length);
-        globalCount = parseInt(data10.filter((res) => { return res.ImageType === "Global" }).length);
-        neitherCount = parseInt(data10.filter((res) => { return res.ImageType === "Neither" }).length);
-        console.log("localCount=" + localCount + ",   globalCount=" + globalCount + ",   neitherCount=" + neitherCount);
-
-        var dataset = [['Local', localCount], ['Global', globalCount], ['Neither', neitherCount]];
-
-        var pie = d3.pie()
-            .sort(null)
-            .value(function (d) {
-                return d[1];
-            });
-
-        var piedata = pie(dataset);
-
-        var outerRadius10 = width10 / 5;                //4
-        var innerRadius10 = width10 / 20;               //0
-
-        var arc = d3.arc()
-            .outerRadius(outerRadius10)
-            .innerRadius(innerRadius10);
-
-        var colors = d3.schemeCategory10;
-
-        var svg10 = d3.select("#svg10")
-            .append('svg')
-            .attr('width', width10)
-            .attr('height', height10);
-
-        var arcs = svg10.selectAll('g')
-            .data(piedata)
-            .enter()
-            .append('g')
-            .attr('transform', 'translate(' + width10 / 2 + ',' + height10 / 2 + ')');
-
-        arcs.append('path')
-            .attr('fill', function (d, i) {
-                return colors[i + 2];                   //purple,green,red
-            })
-            .attr('d', function (d) {
-                return arc(d);
-            });
-
-        arcs.append('text')
-            .attr('transform', function (d, i) {
-                var x10 = arc.centroid(d)[0] * 2.5;     //2.8@circle
-                var y10 = arc.centroid(d)[1] * 2.5;     //2.8@circle
-                if (i === 4) {
-                    return 'translate(' + (x10 * 1.2) + ', ' + (y10 * 1.2) + ')';
-                } else if (i === 3) {
-                    return 'translate(' + (x10 - 40) + ', ' + y10 + ')';
-                } else if (i === 5) {
-                    return 'translate(' + (x10 + 40) + ', ' + y10 + ')';
-                }
-                return 'translate(' + x10 + ', ' + y10 + ')';
-            })
-            .attr('text-anchor', 'middle')
-            .style("font-size", "16px")
-            .attr("stroke", "blue")
-            .text(function (d) {
-                var percent = Number(d.value) / d3.sum(dataset, function (d) {
-                    return d[1];
-                }) * 100;
-                return d.data[0] + ' ' + percent.toFixed(1) + '%';
-            })
-
-        arcs.append('line')
-            .attr('stroke', 'black')
-            .attr('x1', function (d) { return arc.centroid(d)[0] * 1.65; })      //2@circle
-            .attr('y1', function (d) { return arc.centroid(d)[1] * 1.65; })      //2@circle
-            .attr('x2', function (d, i) {
-                if (i === 4) {
-                    return arc.centroid(d)[0] * 3.2;
-                }
-                return arc.centroid(d)[0] * 2.5;
-            })
-            .attr('y2', function (d, i) {
-                if (i === 4) {
-                    return arc.centroid(d)[1] * 3.2;
-                }
-                return arc.centroid(d)[1] * 2.5;
-            });
-    });
+    let radius = Math.min(width, height) / 2;
+    
+    let arc = d3
+        .arc()
+        .outerRadius(radius - 10)
+        .innerRadius(100);
 
 
+    let values = Array.from(data.values());
 
+    //Compute the angles for path and set the padding
+    let pie = d3.pie();
+    pie.padAngle(0.03);
+    let pied_data = pie(values);
+
+    let arcs = g
+        .selectAll("path")
+        .data(pied_data)
+        .join((enter) => enter.append("path").style("stroke", "white"));
+
+    let color = d3.scaleOrdinal(d3.schemeAccent);
+    
+    let colorScale = d3.scaleLinear()
+        .domain([0, d3.max(values)])
+        .range([0, 1]);
+
+    //set color for each arc
+    arcs.attr("d", arc)
+        .style("fill", function (d, i){
+            if(data.size <= 8){
+                return color(i);
+            }else {
+                console.log(d3.interpolateBlues(colorScale(d.data)));
+                return d3.interpolateBlues(colorScale(d.data));
+            }
+        });
+        
+    
 }
-
