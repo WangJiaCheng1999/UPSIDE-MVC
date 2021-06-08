@@ -55,8 +55,9 @@
     var width30 = +svg30.attr('width');                                 //width of sortable bar chart
     var height30 = +svg30.attr('height');                               //height of sortable bar chart
 
-    var bar_margin = { top: 10, right: 50, bottom: 30, left: 60 };      //margin of bar chart
-    var sortbar_margin = { top: 20, right: 30, bottom: 60, left: 50 };  //margin of sortable bar chart
+    var bar_margin = { top: 10, right: 50, bottom: 30, left: 60 };//margin of bar chart
+
+    var sortbar_margin = { top: 20, right: 30, bottom: 30, left: 50 };  //margin of sortable bar chart
 
     var pie_item1 = "Local";                                            //show in pie chart
     var pie_item2 = "Global";                                               
@@ -106,6 +107,7 @@
     var filename = "/JData/" + roundSelected + ".json";       
 
     //initial pie chart
+
     PieInit(width20, height20, pie_item1, pie_item2, pie_item3, filename, "#svg20");
 
     function PieInit(width, height, pie_item1, pie_item2, pie_item3, filename, svg_id) {
