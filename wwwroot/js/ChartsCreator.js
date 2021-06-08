@@ -157,7 +157,7 @@ function createInteractivePieChart(className,width,height,x,y,data){
             valueType = ".2f";
         }
         
-        //Cleat the text
+        //Clean the text
         if($(".innerText").html() !== null){
             $(".innerText").html("")
         }
