@@ -8,7 +8,8 @@ function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data,xTitle){
     //set width and height of bar chart
     let svg = d3.select(className)
         .attr("width",svgWidth)
-        .attr("height",svgHeight);
+        .attr("height",svgHeight)
+        .attr("transform",`translate(${x},${y})`);
     
     //Gaps between the barchart and svg
     let margin = { top: 0, right: 30, bottom:100, left: 100};
@@ -84,13 +85,15 @@ function createHorizontalBarchart(className,svgWidth,svgHeight,x,y,data,xTitle){
     
 }
 
-function createInteractivePieChart(className,width,height,data){
+//Create a Interactive Pie Chart in given area
+function createInteractivePieChart(className,width,height,x,y,data){
     
     // Creates sources <svg> element
     let svg = d3.select(className)
         .append("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .attr("transform",`translate(${x},${y})`);
 
     let g = svg.append("g")
         .attr("transform", `translate(${width / 2}, ${height / 2})`);
@@ -113,7 +116,10 @@ function createInteractivePieChart(className,width,height,data){
     let arcs = g
         .selectAll("path")
         .data(pied_data)
-        .join((enter) => enter.append("path").style("stroke", "white"));
+        .join((enter) => enter.append("path").attr("value",function (d,i){
+          return pied_data[i].value;  
+        })
+        .style("stroke", "white"));
 
     let color = d3.scaleOrdinal(d3.schemeAccent);
     
@@ -123,14 +129,51 @@ function createInteractivePieChart(className,width,height,data){
 
     //set color for each arc
     arcs.attr("d", arc)
+        .transition()
+        .duration(500)
         .style("fill", function (d, i){
-            if(data.size <= 8){
+            console.log(d);
+            if(data.size <= 4){
                 return color(i);
             }else {
-                console.log(d3.interpolateBlues(colorScale(d.data)));
                 return d3.interpolateBlues(colorScale(d.data));
             }
         });
         
+    //Display pie's info on svg
+    arcs.on("mouseover",function (d,i){
+        let infoText = svg.append("text")
+            .attr("class","innerText")
+            .attr("transform", `translate(${(width / 2) - 13} , ${(height / 2) + 18})`);
+        
+        let typeText = svg.append("text")
+            .attr("class","innerText")
+            .attr("transform", `translate(${(width / 2) - 20} , ${(height / 2) - 5})`)
+        
+        let valueType;
+        if(d3.mean(values) < 1){
+            valueType = ".0%"
+        }else {
+            valueType = ".2f";
+        }
+        
+        //Cleat the text
+        if($(".innerText").html() !== null){
+            $(".innerText").html("")
+        }
+        
+        //Add text
+        infoText.text(d3.format(valueType)(d3.select(this).data()[0].data));
+        typeText.text(getKeyByValue(data,d3.select(this).data()[0].data))
+    })
     
+}
+
+//Get key by value in a map
+function getKeyByValue(object, value) {
+    for (let key of object.keys()) {
+        if(object.get(key) === value){
+            return key;
+        }
+    }
 }

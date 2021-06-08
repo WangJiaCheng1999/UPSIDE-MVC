@@ -43,6 +43,7 @@ namespace MvcTest.Controllers
         public IActionResult OpenUnity()
         {
             Process.Start("C:/Users/Administrator/Desktop/UnityExperiment/UnityExperiment.exe");
+           //Process.Start("wwwroot/UnityProgram/UnityExperiment.exe");
             
             return RedirectToAction("Index");
         }

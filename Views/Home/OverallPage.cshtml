@@ -75,31 +75,31 @@
         
         if (VisualType === "Bar Chart"){
             if (dataType === "Average Time Use"){
-                createHorizontalBarchart("#my_dataviz",750,750,0,0,aveTimeUse,"Time Use");
+                createHorizontalBarchart("#my_dataviz",750,750,500,100,aveTimeUse,"Time Use");
             }            
             if (dataType === "Average Accuracy"){
-                createHorizontalBarchart("#my_dataviz",750,750,0,0,aveAccuracy,"Accuracy");
+                createHorizontalBarchart("#my_dataviz",750,750,500,100,aveAccuracy,"Accuracy");
             }            
             if (dataType === "Image Accuracy"){
-                 createHorizontalBarchart("#my_dataviz",750,750,0,0,imageAccuracy,"Accuracy");
+                 createHorizontalBarchart("#my_dataviz",750,750,500,100,imageAccuracy,"Accuracy");
             }            
             if (dataType === "Image Count"){
-                 createHorizontalBarchart("#my_dataviz",750,750,0,0,imageCount,"Accuracy");
+                 createHorizontalBarchart("#my_dataviz",750,750,500,100,imageCount,"Accuracy");
             }
             
         }        
         if (VisualType === "Pie Chart"){
             if (dataType === "Average Time Use"){
-                createInteractivePieChart("#my_dataviz",700,700,aveTimeUse);
+                createInteractivePieChart("#my_dataviz",700,700,500,100,aveTimeUse);
             }            
             if (dataType === "Average Accuracy"){
-                createInteractivePieChart("#my_dataviz",700,700,aveAccuracy);
+                createInteractivePieChart("#my_dataviz",700,700,500,100,aveAccuracy);
             }            
             if (dataType === "Image Accuracy"){
-                createInteractivePieChart("#my_dataviz",700,700,imageAccuracy);
+                createInteractivePieChart("#my_dataviz",700,700,500,100,imageAccuracy);
             }
             if (dataType === "Image Count"){
-                createInteractivePieChart("#my_dataviz",700,700,imageCount);
+                createInteractivePieChart("#my_dataviz",700,700,500,100,imageCount);
             }
         }    
         
