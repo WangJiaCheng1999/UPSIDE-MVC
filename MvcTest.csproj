@@ -1,10 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.Core" Version="2.38.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
@@ -27,6 +29,14 @@
 
   <ItemGroup>
     <None Remove="Views\Home\OverallPage.cshtml~af4ffd6... Bug fixed on OpenUnity button" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Files\background.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="..\UPSIDE-MVC%2528final%2529\Files\" />
   </ItemGroup>
 
 
