@@ -38,7 +38,10 @@ namespace MvcTest.Controllers
         {
             return View();
         }
-        
+        public IActionResult UpdateExperiment()
+        {
+            return View();
+        }
         //Open Unity application
         public IActionResult OpenUnity()
         { 

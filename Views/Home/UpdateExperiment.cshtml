@@ -1,0 +1,27 @@
+﻿@model MvcTest.Models.FilesViewModel
+@{
+    ViewData["Title"] = "UpdateExperiment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+
+<h1>UpdateExperiment</h1>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="files" multiple required />
+
+    <button type="submit" class="btn btn-primary" asp-controller="File" asp-action="UploadFiles">Upload to File System</button>
+
+</form>
+<p>List of Files</p>
+
+<ul>  
+    @foreach (var item in Model.Files)
+    {
+        <li>
+            <a asp-action="Download"
+               asp-route-filename="@item.Name">
+                @item.Name
+            </a>
+        </li>
+    }
+</ul>
