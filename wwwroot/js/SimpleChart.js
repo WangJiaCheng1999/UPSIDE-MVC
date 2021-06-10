@@ -13,9 +13,9 @@
             }
 
             //count ImageType == pie_item1|2|3
-            pie_item1_count = parseInt(data_file.filter((res) => { return res.ImageType == pie_item1 }).length);
-            pie_item2_count = parseInt(data_file.filter((res) => { return res.ImageType == pie_item2 }).length);
-            pie_item3_count = parseInt(data_file.filter((res) => { return res.ImageType == pie_item3 }).length);
+            pie_item1_count = parseInt(data_file.filter( function(res){ return res.ImageType == pie_item1 }).length);
+            pie_item2_count = parseInt(data_file.filter( function(res){ return res.ImageType == pie_item2 }).length);
+            pie_item3_count = parseInt(data_file.filter( function(res){ return res.ImageType == pie_item3 }).length);
 
             //dataset from item & item count
             var dataset = [[pie_item1, pie_item1_count], [pie_item2, pie_item2_count], [pie_item3, pie_item3_count]];
@@ -25,7 +25,7 @@
                 .sort(null)
                 .value(function (d) {
                     return d[1];
-                });
+                 });
             var piedata = pie(dataset);
 
             //inner & outer radius for the donut chart
@@ -115,7 +115,9 @@
 
         //use json file as data file
         d3.json(filename, function (error, data_file) {
-            if (error) throw error;
+            if (error) {
+                throw error;
+            }
 
             //convert TimeUse to numerical data
             data_file.forEach(function (d) {
@@ -251,21 +253,23 @@
 
         //use json file as data_file
         d3.json(filename, function (error, data_file) {
-            if (error) throw error;
+            if (error) {
+                throw error;
+            }
 
             //covert TimeUse from string to number
-            data_file.forEach(row => {
-            row.TimeUse = +(row.TimeUse);
+            data_file.forEach( function(row){
+                row.TimeUse = +(row.TimeUse);
             });
 
             //Sort the data_file by ascending order
-            data_file = data_file.sort((a, b) => {
-                return d3.ascending(+a.TimeUse, +b.TimeUse)
+            data_file = data_file.sort( function(m, n){
+                return d3.ascending(+m.TimeUse, +n.TimeUse)
             });
 
             //let x=TimeUse, y=Round
-            var xValue = (data) => { return data.TimeUse };
-            var yValue = (data) => { return data.Round };
+            var xValue = function(data){ return data.TimeUse };
+            var yValue = function(data){ return data.Round };
 
             //xScale from 0 to max_TimeUse
             var xScale = d3.scaleLinear()
@@ -287,8 +291,8 @@
                 .data(data_file)
                 .enter()
                 .append('rect')
-                .attr('y', data => yScale(yValue(data)))
-                .attr('width', (data) => { return xScale(xValue(data)) })
+                .attr('y', function (data) { return yScale(yValue(data)) })
+                .attr('width', function(data){ return xScale(xValue(data)) })
                 .attr('height', yScale.bandwidth())
                 .attr('fill', 'steelblue')
 
@@ -307,7 +311,7 @@
 
             //append bottom text
             xAxisGroup.append('text')
-                .attr('y', margin.bottom/2)
+                .attr('y', margin.bottom/2 +10)
                 .attr('x', in_width / 2)
                 .attr('fill', 'black').text(bottomText)
                 .attr('id', 'TimeUse');
