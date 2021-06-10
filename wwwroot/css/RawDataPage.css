@@ -1,23 +1,34 @@
-﻿table {
+﻿
+#formTitle {
+    margin-top: 50px;
+    text-align: center;
+
+}
+#dataDisplay {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
     border-spacing: 0;
-    margin: auto;
-    border: 1px solid #c0c0c0;
-    width: 300px;
 }
-td {
-    text-align: center;
-    border: 1px solid #d0d0d0;
-    color: #404060;
-    padding: 10px;
-    font: 14px "Lucida Console";
+
+ td,  th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+ tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+ tr:hover {
+        background-color: #ddd;
+    }
+
+   
+table {
+    width: 90%;
+    margin: 10px auto;
+    border-collapse: collapse;
+   
 }
-#formTitle{
-    margin-top:50px;
-    text-align: center;
-    font: 20px "Lucida Console";
-}
-#dataDisplay{
-    margin: auto;
-    width: 60%;
-    padding: 10px;
-}
+
