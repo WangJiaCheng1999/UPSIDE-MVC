@@ -15,30 +15,26 @@
 
 <script type="text/javascript" src="https://d3js.org/d3.v4.min.js?ver<%=DateTime.Now.Ticks.ToString()%>"></script>
 <script src="/js/SimpleChart.js"></script>
-
+ 
 <div class="row">
     <div class="column">
-        <p style="padding-left: 20px; padding-top:15px;font-size:14px; font-family:Arial;font-weight:bold">The relationship between Rounds and TimeUse</p>
-        <svg width="500" height="500" id="svg10"></svg>
+        <p style="padding-left: 20px; padding-top: 15px; font-size: 16px; font-family: 'Times New Roman'; font-weight: bold";font-style:italic>
+            Figure 1 - Relationship between Rounds (X) and TimeUse (Y)
+        </p>
+        <svg width="500" height="500" id="svg10" class="svgs"></svg>
     </div>
     <div class="column">
-        <p style="padding-left: 20px; padding-top:20px;font-size:14px; font-family:Arial;font-weight:bold">Percentage of ImageTypes</p>
-        <svg width="500" height="500" id="svg20"></svg>
+        <p style="padding-left: 20px; padding-top: 20px; font-size: 16px; font-family: 'Times New Roman'; font-weight: bold";font-style:italic>
+            Figure 2 - Percentage of ImageTypes</p>
+        <svg width="500" height="500" id="svg20" class="svgs"></svg>
     </div>
-    
     <div class="column">
-        <p style="padding-left: 20px; padding-top:20px;font-size:14px; font-family:Arial;font-weight:bold">Use time sorted from low to high</p>
+        <p style="padding-left: 20px; padding-top: 20px; font-size: 16px; font-family: 'Times New Roman'; font-weight: bold";font-style:italic>
+            Figure 3 - Sorting of the used time of each round
+        </p>
         <svg width="600" height="500" id="svg30" class="svgs"></svg>
     </div>
 </div>
-
-@*<svg width="100" height="500" id="svg5" class="svgs"></svg>
-<svg width="500" height="500" id="svg10" class="svgs"></svg>
-<svg width="100" height="500" id="svg15" class="svgs"></svg>
-<svg width="500" height="500" id="svg20" class="svgs"></svg>
-<svg width="100" height="500" id="svg25" class="svgs"></svg>
-<svg width="600" height="500" id="svg30" class="svgs"></svg>*@
-
 
 <script>
 
@@ -60,8 +56,8 @@
     var sortbar_margin = { top: 20, right: 30, bottom: 60, left: 50 };  //margin of sortable bar chart
 
     var pie_item1 = "Local";                                            //show in pie chart
-    var pie_item2 = "Global";                                               
-    var pie_item3 = "Neither";                                              
+    var pie_item2 = "Global";
+    var pie_item3 = "Neither";
 
     var bottomText = "Time Used";                                       //show in sort bar chart
     var topText = "Speed Ranking";
@@ -97,14 +93,14 @@
             $("#svg30").html("");
         }
         SortBar(width30, height30, sortbar_margin, bottomText, topText, "/JData/" + roundSelected, "#svg30");
-         
+
     });
- 
+
     // initial with Round1.json
     if (roundSelected === 0) {
            roundSelected = "Round1";
     }
-    var filename = "/JData/" + roundSelected + ".json";       
+    var filename = "/JData/" + roundSelected + ".json";
 
     //initial pie chart
     PieInit(width20, height20, pie_item1, pie_item2, pie_item3, filename, "#svg20");
