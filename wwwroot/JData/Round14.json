@@ -1,0 +1,82 @@
+[
+  {
+    "Round": 1,
+    "Success": true,
+    "OverTime": false,
+    "TimeUse": 1146,
+    "ImageType": "Local",
+    "ImageDetail": "S_from_H"
+  },
+  {
+    "Round": 2,
+    "Success": true,
+    "OverTime": false,
+    "TimeUse": 442,
+    "ImageType": "Global",
+    "ImageDetail": "H_from_Z"
+  },
+  {
+    "Round": 3,
+    "Success": true,
+    "OverTime": false,
+    "TimeUse": 521,
+    "ImageType": "Global",
+    "ImageDetail": "H_from_S"
+  },
+  {
+    "Round": 4,
+    "Success": true,
+    "OverTime": false,
+    "TimeUse": 666,
+    "ImageType": "Neither",
+    "ImageDetail": "T_from_S"
+  },
+  {
+    "Round": 5,
+    "Success": true,
+    "OverTime": false,
+    "TimeUse": 466,
+    "ImageType": "Local",
+    "ImageDetail": "T_from_H"
+  },
+  {
+    "Round": 6,
+    "Success": false,
+    "OverTime": false,
+    "TimeUse": 581,
+    "ImageType": "Local",
+    "ImageDetail": "S_from_O"
+  },
+  {
+    "Round": 7,
+    "Success": true,
+    "OverTime": false,
+    "TimeUse": 169,
+    "ImageType": "Neither",
+    "ImageDetail": "Z_from_T"
+  },
+  {
+    "Round": 8,
+    "Success": false,
+    "OverTime": false,
+    "TimeUse": 36,
+    "ImageType": "Global",
+    "ImageDetail": "O_from_S"
+  },
+  {
+    "Round": 9,
+    "Success": false,
+    "OverTime": false,
+    "TimeUse": 115,
+    "ImageType": "Local",
+    "ImageDetail": "T_from_H"
+  },
+  {
+    "Round": 10,
+    "Success": false,
+    "OverTime": false,
+    "TimeUse": 18,
+    "ImageType": "Global",
+    "ImageDetail": "O_from_S"
+  }
+]

@@ -46,10 +46,12 @@ namespace MvcTest.Controllers
         public IActionResult UpdateExperiment() //update the UpdateExperiment interface and add display data
         {
             var model = new FilesViewModel();
+            int i = 0;
             foreach (var item in this.fileProvider.GetDirectoryContents(""))
             {
+                i++;
                 model.Files.Add(
-                    new FileDetails { Name = item.Name, Path = item.PhysicalPath });
+                    new FileDetails {Id=i, Name = item.Name, Path = item.PhysicalPath });
             }
             return View(model);
             return View();
@@ -60,6 +62,7 @@ namespace MvcTest.Controllers
         }
 
         [HttpPost]
+        //add the selected data into JData
         public async Task<IActionResult> UploadFiles(List<IFormFile> files)
         {
             if (files == null || files.Count == 0)
@@ -109,7 +112,19 @@ namespace MvcTest.Controllers
             memory.Position = 0;
             return File(memory, GetContentType(path), Path.GetFileName(path));
         }
+        public async Task<IActionResult> Delete(string filename)
+        {
+            if (filename == null)
+                return Content("filename not present");
 
+            var path = Path.Combine(
+                           Directory.GetCurrentDirectory(),
+                           "wwwroot/JData", filename);
+            System.IO.File.Delete(path);
+           
+            return RedirectToAction("UpdateExperiment");
+
+        }
         private string GetContentType(string path)
         {
             var types = GetMimeTypes();
@@ -152,5 +167,35 @@ namespace MvcTest.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        //public ActionResult Delete(int id)
+        //{
+        //    //userInfo.Id = id;
+        //    //demoEntities.UserInfo.Attach(userInfo);//对象添加到EF管理容器中
+        //    //demoEntities.Entry(userInfo).State = EntityState.Deleted;
+        //    //demoEntities.SaveChanges();
+        //    return Content("ok");
+        //}         
+        //public  IActionResult DeleteFileFromFileSystem(string path)
+        //{
+        //    if (System.IO.File.Exists(path))//判断文件是否存在
+        //    {
+        //        System.IO.File.Delete(path);//执行IO文件删除,需引入命名空间System.IO;
+        //    }
+        //   return Json(new { OK = true });
+        //    //var file = await context.FilesOnFileSystem.Where(x => x.Id == id).FirstOrDefaultAsync();
+        //    //if (file == null) return null;
+        //    //if (System.IO.File.Exists(file.FilePath))
+        //    //{
+        //    //    System.IO.File.Delete(file.FilePath);
+        //    //}
+        //    //context.FilesOnFileSystem.Remove(file);
+        //    //context.SaveChanges();
+        //    //TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from File System.";
+        //    //return RedirectToAction("Index");
+        //}
+
     }
+   
 }
