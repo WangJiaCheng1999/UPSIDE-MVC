@@ -46,11 +46,12 @@ namespace MvcTest.Controllers
         public IActionResult UpdateExperiment() //update the UpdateExperiment interface and add display data
         {
             var model = new FilesViewModel();
-            foreach (var item in this.fileProvider.GetDirectoryContents("wwwroot/JData"))
+            foreach (var item in this.fileProvider.GetDirectoryContents(""))
             {
                 model.Files.Add(
                     new FileDetails { Name = item.Name, Path = item.PhysicalPath });
             }
+            return View(model);
             return View();
         }
         public HomeController(IFileProvider fileProvider)
@@ -130,7 +131,8 @@ namespace MvcTest.Controllers
                 {".jpg", "image/jpeg"},
                 {".jpeg", "image/jpeg"},
                 {".gif", "image/gif"},
-                {".csv", "text/csv"}
+                {".csv", "text/csv"},
+                { ".json","text/json"}
 
             };
         }
