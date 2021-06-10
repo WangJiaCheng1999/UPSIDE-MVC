@@ -311,7 +311,7 @@
 
             //append bottom text
             xAxisGroup.append('text')
-                .attr('y', margin.bottom/2)
+                .attr('y', margin.bottom/2 +10)
                 .attr('x', in_width / 2)
                 .attr('fill', 'black').text(bottomText)
                 .attr('id', 'TimeUse');
