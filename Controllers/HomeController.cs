@@ -44,8 +44,9 @@ namespace MvcTest.Controllers
         }
         //Open Unity application
         public IActionResult OpenUnity()
-        {
-            Process.Start("C:/Users/Administrator/Desktop/UnityExperiment/UnityExperiment.exe");
+        { 
+            //Process.Start("C:/Users/Administrator/Desktop/UnityExperiment/UnityExperiment.exe");
+           Process.Start("wwwroot/UnityExperiment/UnityExperiment.exe");
             
             return RedirectToAction("Index");
         }

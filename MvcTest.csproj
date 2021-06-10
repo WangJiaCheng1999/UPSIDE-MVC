@@ -19,20 +19,31 @@
     <Content Remove="wwwroot\css\OverallPage.css~17c4741... HorizontalBarchart done" />
     <Content Remove="wwwroot\csv\employee.csv" />
     <Content Remove="wwwroot\css\test.css" />
+    <Content Remove="wwwroot\UnityProgram\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Views\Home\123.cshtml.cs" />
     <Compile Remove="Views\Home\OverAllAnalyze.cshtml.cs" />
     <Compile Include="wwwroot\cSharpFunction\FileCounter.cs" />
+    <Compile Remove="wwwroot\UnityProgram\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Views\Home\OverallPage.cshtml~af4ffd6... Bug fixed on OpenUnity button" />
+    <None Remove="wwwroot\UnityProgram\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="wwwroot\UnityProgram\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\UnityProgram\UnityExperiment.exe" />
   </ItemGroup>
 
 

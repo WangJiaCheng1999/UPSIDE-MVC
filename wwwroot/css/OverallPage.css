@@ -4,7 +4,8 @@
     margin-top: 40px;
 }
 svg{
-    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
 rect{
     fill: #254BBB;
@@ -15,4 +16,7 @@ rect{
 }
 .tick line{
     stroke: silver;
+}
+.innerText{
+    font: 20px "Lucida Console";
 }
