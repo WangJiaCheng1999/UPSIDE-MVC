@@ -5,24 +5,12 @@
 }
 
     <link href="~/css/UpdateExperiment.css" rel="stylesheet" />
-<h4  style="font-size: 20px; font-family: 'Times New Roman'; font-weight: bold; font-style: italic; text-align: center">Upload Experiments Data File</h4>
+<h2  style="font-size: 30px; font-family: 'Times New Roman'; font-weight: bold; font-style: italic; text-align: center">Upload Experiments Data File</h2>
 <form method="post" enctype="multipart/form-data" style="font-size: 20px; font-family: Arial;text-align: center ">
     <input type="file" name="files" multiple required />
     <button type="submit" class="btn btn-primary" asp-controller="Home" asp-action="UploadFiles">Upload Files</button>
 </form>
-@*<p>List of Files</p>
 
-<ul>
-    @foreach (var item in Model.Files)
-    {
-        <li>
-            <a asp-action="Download"
-               asp-route-filename="@item.Name">
-                @item.Name
-            </a>
-        </li>
-    }
-</ul>*@
 <table class="table" style="text-align:center">
     <tr>
         <th>ID </th>
@@ -39,7 +27,7 @@
     @*<td>@item.Path</td>*@
     <td>
         <a asp-action="Delete"
-           asp-route-filename="@item.Name">
+           asp-route-filename="@item.Name" style="color:red">
             Delete File
         </a>
     </td>
@@ -47,7 +35,7 @@
        asp-route-filename="@item.Name">
         Download File
     </a></td>
-    @*<td type="button" class="btn btn-danger" asp-controller="File" asp-action="DeleteFileFromFileSystem" asp-route-id="@item.Path">Delete</td>*@
+   
 </tr>
 
     }

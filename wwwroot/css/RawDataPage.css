@@ -20,9 +20,9 @@
         background-color: #f2f2f2;
     }
 
- tr:hover {
-        background-color: #ddd;
-    }
+tr:hover {
+    background-color: #808080;
+}
 
    
 table {
