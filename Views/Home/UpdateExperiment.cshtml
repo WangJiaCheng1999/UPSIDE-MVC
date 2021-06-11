@@ -3,9 +3,9 @@
     ViewData["Title"] = "UpdateExperiment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-    <link href="~/css/UpdateExperiment.css" rel="stylesheet" />
-<h2  style="font-size: 30px; font-family: 'Times New Roman'; font-weight: bold; font-style: italic; text-align: center">Upload Experiments Data File</h2>
+@Html.Raw(TempData["msg"])
+<link href="~/css/UpdateExperiment.css" rel="stylesheet" />
+<h2 style="font-size: 30px; font-family: 'Times New Roman'; font-weight: bold; font-style: italic; text-align: center">Upload Experiments Data File</h2>
 <form method="post" enctype="multipart/form-data" style="font-size: 20px; font-family: Arial;text-align: center ">
     <input type="file" name="files" multiple required />
     <button type="submit" class="btn btn-primary" asp-controller="Home" asp-action="UploadFiles">Upload Files</button>
@@ -21,22 +21,24 @@
     </tr>
     @foreach (var item in Model.Files)
     {
-<tr>
-    <td>@item.Id</td>
-    <td>@item.Name</td>
-    @*<td>@item.Path</td>*@
-    <td>
-        <a asp-action="Delete"
-           asp-route-filename="@item.Name" style="color:red">
-            Delete File
-        </a>
-    </td>
-    <td><a asp-action="Download"
-       asp-route-filename="@item.Name">
-        Download File
-    </a></td>
-   
-</tr>
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            @*<td>@item.Path</td>*@
+            <td>
+                <a asp-action="Delete"
+                   asp-route-filename="@item.Name" style="color:red">
+                    Delete File
+                </a>
+            </td>
+            <td>
+                <a asp-action="Download"
+                   asp-route-filename="@item.Name">
+                    Download File
+                </a>
+            </td>
+
+        </tr>
 
     }
 </table>

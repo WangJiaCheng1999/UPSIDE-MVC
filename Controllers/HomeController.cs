@@ -42,8 +42,9 @@ namespace MvcTest.Controllers
             return View();
         }
         private readonly IFileProvider fileProvider;
-       
-        public IActionResult UpdateExperiment() //update the UpdateExperiment interface and add display data
+
+        //Display the Update Experiment data from file
+        public IActionResult UpdateExperiment() 
         {
             var model = new FilesViewModel();
             int i = 0;
@@ -54,7 +55,7 @@ namespace MvcTest.Controllers
                     new FileDetails {Id=i, Name = item.Name, Path = item.PhysicalPath });
             }
             return View(model);
-            return View();
+
         }
         public HomeController(IFileProvider fileProvider)
         {
@@ -63,7 +64,7 @@ namespace MvcTest.Controllers
 
         [HttpPost]
         //add the selected data into JData
-        public async Task<IActionResult> UploadFiles(List<IFormFile> files)
+        public IActionResult UploadFiles(List<IFormFile> files)
         {
             if (files == null || files.Count == 0)
                 return Content("files not selected");
@@ -76,12 +77,13 @@ namespace MvcTest.Controllers
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                     file.CopyToAsync(stream);
                 }
             }
 
             return RedirectToAction("UpdateExperiment");
         }
+        //get the all files from location
         public IActionResult Files()
         {
 
@@ -94,8 +96,8 @@ namespace MvcTest.Controllers
             return View(model);
 
         }
-
-        public async Task<IActionResult> Download(string filename)
+        //can download the file from the sever
+        public IActionResult Download(string filename)
         {
             if (filename == null)
                 return Content("filename not present");
@@ -107,46 +109,44 @@ namespace MvcTest.Controllers
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
             {
-                await stream.CopyToAsync(memory);
+                 stream.CopyToAsync(memory);
             }
             memory.Position = 0;
             return File(memory, GetContentType(path), Path.GetFileName(path));
         }
-        public async Task<IActionResult> Delete(string filename)
+        //delete the selected file
+        public IActionResult Delete(string filename)
         {
             if (filename == null)
                 return Content("filename not present");
+            else {
+               
+                
+                var path = Path.Combine(
+                          Directory.GetCurrentDirectory(),
+                          "wwwroot/JData", filename);
+                System.IO.File.Delete(path);              
 
-            var path = Path.Combine(
-                           Directory.GetCurrentDirectory(),
-                           "wwwroot/JData", filename);
-            System.IO.File.Delete(path);
+                TempData["msg"] = "<script>alert('Success delete the file');</script>"; //return alert 
+            }
+           
            
             return RedirectToAction("UpdateExperiment");
 
         }
+        //get the file typa
         private string GetContentType(string path)
         {
             var types = GetMimeTypes();
             var ext = Path.GetExtension(path).ToLowerInvariant();
             return types[ext];
         }
-
+        //limit the download file type
         private Dictionary<string, string> GetMimeTypes()
         {
             return new Dictionary<string, string>
             {
-                {".txt", "text/plain"},
-                {".pdf", "application/pdf"},
-                {".doc", "application/vnd.ms-word"},
-                {".docx", "application/vnd.ms-word"},
-                {".xls", "application/vnd.ms-excel"},
-                {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
-                {".png", "image/png"},
-                {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
-                {".gif", "image/gif"},
-                {".csv", "text/csv"},
+              
                 { ".json","text/json"}
 
             };
@@ -169,32 +169,7 @@ namespace MvcTest.Controllers
         }
 
 
-        //public ActionResult Delete(int id)
-        //{
-        //    //userInfo.Id = id;
-        //    //demoEntities.UserInfo.Attach(userInfo);//对象添加到EF管理容器中
-        //    //demoEntities.Entry(userInfo).State = EntityState.Deleted;
-        //    //demoEntities.SaveChanges();
-        //    return Content("ok");
-        //}         
-        //public  IActionResult DeleteFileFromFileSystem(string path)
-        //{
-        //    if (System.IO.File.Exists(path))//判断文件是否存在
-        //    {
-        //        System.IO.File.Delete(path);//执行IO文件删除,需引入命名空间System.IO;
-        //    }
-        //   return Json(new { OK = true });
-        //    //var file = await context.FilesOnFileSystem.Where(x => x.Id == id).FirstOrDefaultAsync();
-        //    //if (file == null) return null;
-        //    //if (System.IO.File.Exists(file.FilePath))
-        //    //{
-        //    //    System.IO.File.Delete(file.FilePath);
-        //    //}
-        //    //context.FilesOnFileSystem.Remove(file);
-        //    //context.SaveChanges();
-        //    //TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from File System.";
-        //    //return RedirectToAction("Index");
-        //}
+   
 
     }
    
