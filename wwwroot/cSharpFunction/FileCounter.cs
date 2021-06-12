@@ -23,12 +23,15 @@ namespace MvcTest.wwwroot.cSharpFunction
             for (int i = 0; i < a.Length; i++)
             {
                 string fileName = a[i].Substring(path.Length + 1);
+                Console.WriteLine(Path.GetFileNameWithoutExtension(fileName)); 
                 fileList += fileName + ",";
             }
-
+            
             fileList = fileList.Substring(0, fileList.Length - 1);
-
+            
             return fileList;
         }
     }
+    
+
 }

@@ -20,14 +20,13 @@
     let allData = getAllData(fileCount,fileListArray);
     
     //Add options into the selector
-    for (let i = 1; i <= allData.size; i++){
-        let option = "Round" + i;
+    for (let i = 0; i < allData.size; i++){
+        let option = fileListArray[i].replace(/\.[^/.]+$/, "");
         $('#dataSelector').append(`<option value="${option}">${option} </option>`);
-        console.log(allData.get(option));
     }
     
     //Initial Round will be the Round 1
-    showData("Round1");
+    showData(fileListArray[0].replace(/\.[^/.]+$/, ""));
 
     //Get what options that user selected and show the data based on that
    $("#dataSelector").change(function (round){

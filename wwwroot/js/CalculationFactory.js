@@ -207,7 +207,6 @@ function getImageAccuracyMap(allData){
 
 //Get one round's whole data, this function will return a array that contains 10 maps
 function getSingleRoundData(round,allData){
-    round = "Round"+round;
     return allData.get(round);
 }
 
@@ -224,7 +223,7 @@ function getAllData(TotalRound,fileList) {
             cache: false,
             async: false,
             success: function (data) {
-                let Round = "Round" + i;
+                //let Round = "Round" + i;
                 let roundsInfo = [];
                 for (let j = 0; j < data.length; j++) {
                     let singleRoundInfo = new Map();
@@ -235,7 +234,8 @@ function getAllData(TotalRound,fileList) {
                     singleRoundInfo.set("OverTime", data[j].OverTime);
                     roundsInfo.push(singleRoundInfo);
                 }
-                dataList.set(Round, roundsInfo);
+
+                dataList.set(fileList[i-1].replace(/\.[^/.]+$/, ""), roundsInfo);
             },
             error: function () {
                 console.log("JSON data not found." + this.url);
