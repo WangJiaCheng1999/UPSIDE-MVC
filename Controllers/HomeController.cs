@@ -68,17 +68,25 @@ namespace MvcTest.Controllers
         {
             if (files == null || files.Count == 0)
                 return Content("files not selected");
-
+            
             foreach (var file in files)
             {
                 var path = Path.Combine(
                         Directory.GetCurrentDirectory(), "wwwroot/JData",
                         file.GetFilename());
-
-                using (var stream = new FileStream(path, FileMode.Create))
+                var types = GetMimeTypes();
+                string typeJudge = types[".json"];
+                if (GetContentType(path) == typeJudge)
                 {
-                     file.CopyToAsync(stream);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        file.CopyToAsync(stream);
+                    }
                 }
+                else {
+                    TempData["msg"] = "<script>alert('Only update the experiments json file');</script>";
+                }
+               
             }
 
             return RedirectToAction("UpdateExperiment");
@@ -101,7 +109,6 @@ namespace MvcTest.Controllers
         {
             if (filename == null)
                 return Content("filename not present");
-
             var path = Path.Combine(
                            Directory.GetCurrentDirectory(),
                            "wwwroot/JData", filename);
@@ -139,15 +146,29 @@ namespace MvcTest.Controllers
         {
             var types = GetMimeTypes();
             var ext = Path.GetExtension(path).ToLowerInvariant();
-            return types[ext];
+          
+                return types[ext];          
         }
+
+      
+
         //limit the download file type
         private Dictionary<string, string> GetMimeTypes()
         {
             return new Dictionary<string, string>
             {
-              
-                { ".json","text/json"}
+                { ".json","text/json"},
+                {".txt", "text/plain"},
+                {".pdf", "application/pdf"},
+                {".doc", "application/vnd.ms-word"},
+                {".docx", "application/vnd.ms-word"},
+                {".xls", "application/vnd.ms-excel"},
+                {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+                {".png", "image/png"},
+                {".jpg", "image/jpeg"},
+                {".jpeg", "image/jpeg"},
+                {".gif", "image/gif"},
+                {".csv", "text/csv"},
 
             };
         }

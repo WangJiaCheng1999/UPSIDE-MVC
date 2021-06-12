@@ -3,7 +3,8 @@
     font: 20px "Lucida Console";
     margin-top: 40px;
 }
-svg{
+svg {
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
 }
