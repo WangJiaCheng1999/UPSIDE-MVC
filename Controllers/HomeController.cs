@@ -134,7 +134,7 @@ namespace MvcTest.Controllers
             return RedirectToAction("UpdateExperiment");
 
         }
-        //get the file typa
+        //get the file type
         private string GetContentType(string path)
         {
             var types = GetMimeTypes();

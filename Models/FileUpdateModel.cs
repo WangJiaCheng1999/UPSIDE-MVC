@@ -12,23 +12,24 @@ namespace MvcTest.Models
  
     public static class IFormFileExtensions
     {
+        //get the file name 
         public static string GetFilename(this IFormFile file)
         {
             return ContentDispositionHeaderValue.Parse(
                 file.ContentDisposition).FileName.ToString().Trim('"');
         }
-
-        public static async Task<MemoryStream> GetFileStream(this IFormFile file)
+        // copy the file from selected to upload file 
+        public static MemoryStream GetFileStream(this IFormFile file)
         {
             MemoryStream filestream = new MemoryStream();
-            await file.CopyToAsync(filestream);
+             file.CopyToAsync(filestream);
             return filestream;
         }
 
-        public static async Task<byte[]> GetFileArray(this IFormFile file)
+        public static byte[] GetFileArray(this IFormFile file)
         {
             MemoryStream filestream = new MemoryStream();
-            await file.CopyToAsync(filestream);
+            file.CopyToAsync(filestream);
             return filestream.ToArray();
         }
     }
