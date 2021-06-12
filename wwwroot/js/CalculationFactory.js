@@ -212,7 +212,7 @@ function getSingleRoundData(round,allData){
 }
 
 //Get JSON Data from root and return the data in a Map
-function getAllData(TotalRound) {
+function getAllData(TotalRound,fileList) {
     let dataList = new Map();
     let localHost = window.location.protocol + "//"+window.location.host;
 
@@ -220,7 +220,7 @@ function getAllData(TotalRound) {
     for (let i = 1; i < TotalRound + 1; i++) {
         $.ajax({
             type: "GET",
-            url: localHost+"/JData/Round" + i + ".json",
+            url: localHost+"/JData/"+fileList[i-1],
             cache: false,
             async: false,
             success: function (data) {
@@ -242,7 +242,7 @@ function getAllData(TotalRound) {
             }
         });
     }
-    
+    console.log(dataList);
     return dataList;
 }
 

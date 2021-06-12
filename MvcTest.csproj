@@ -20,6 +20,8 @@
     <Content Remove="wwwroot\csv\employee.csv" />
     <Content Remove="wwwroot\css\test.css" />
     <Content Remove="wwwroot\UnityProgram\**" />
+    <Content Remove="wwwroot\JData\Round9.json" />
+    <Content Remove="wwwroot\JData\Round10.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,7 @@
     <Compile Remove="Views\Home\OverAllAnalyze.cshtml.cs" />
     <Compile Include="wwwroot\cSharpFunction\FileCounter.cs" />
     <Compile Remove="wwwroot\UnityProgram\**" />
+    <Compile Remove="Models\ExperimentModel.cs" />
   </ItemGroup>
 
   <ItemGroup>

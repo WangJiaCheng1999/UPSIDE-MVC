@@ -31,9 +31,10 @@
 
 <script>
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");
+    let fileListArray = "@FileCounter.GetFiles("wwwroot/JData")".split(",");
     
     //All data from the JSON files
-    let allData = getAllData(fileCount);
+    let allData = getAllData(fileCount,fileListArray);
     
     //Maps that save each round's different types of experiment data
     let aveTimeUse = getAveTimeUseMap(allData);
