@@ -83,7 +83,7 @@
     "Round": 1,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 1146,
+    "TimeUse": 814,
     "ImageType": "Local",
     "ImageDetail": "S_from_H"
   },
@@ -91,7 +91,7 @@
     "Round": 2,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 442,
+    "TimeUse": 1042,
     "ImageType": "Global",
     "ImageDetail": "H_from_Z"
   },
@@ -99,7 +99,7 @@
     "Round": 3,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 521,
+    "TimeUse": 1521,
     "ImageType": "Global",
     "ImageDetail": "H_from_S"
   },
@@ -107,7 +107,7 @@
     "Round": 4,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 666,
+    "TimeUse": 698,
     "ImageType": "Neither",
     "ImageDetail": "T_from_S"
   },
@@ -115,7 +115,7 @@
     "Round": 5,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 466,
+    "TimeUse": 496,
     "ImageType": "Local",
     "ImageDetail": "T_from_H"
   },
@@ -123,7 +123,7 @@
     "Round": 6,
     "Success": false,
     "OverTime": false,
-    "TimeUse": 581,
+    "TimeUse": 1581,
     "ImageType": "Local",
     "ImageDetail": "S_from_O"
   },
@@ -131,7 +131,7 @@
     "Round": 7,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 169,
+    "TimeUse": 1619,
     "ImageType": "Neither",
     "ImageDetail": "Z_from_T"
   },
@@ -139,15 +139,15 @@
     "Round": 8,
     "Success": false,
     "OverTime": false,
-    "TimeUse": 36,
+    "TimeUse": 536,
     "ImageType": "Global",
     "ImageDetail": "O_from_S"
   },
   {
     "Round": 9,
-    "Success": false,
+    "Success": "true",
     "OverTime": false,
-    "TimeUse": 115,
+    "TimeUse": 815,
     "ImageType": "Local",
     "ImageDetail": "T_from_H"
   },
@@ -155,7 +155,7 @@
     "Round": 10,
     "Success": false,
     "OverTime": false,
-    "TimeUse": 18,
+    "TimeUse": 918,
     "ImageType": "Global",
     "ImageDetail": "O_from_S"
   }

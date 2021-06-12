@@ -39,6 +39,7 @@
 <script>
 
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");        //file count
+    let fileListArray = "@FileCounter.GetFiles("wwwroot/JData")".split(",");
     let roundSelected = 0;                                              //initial round
 
     var svg10 = d3.select('#svg10');                                    //bar chart
@@ -65,8 +66,8 @@
 
 
     //Add options into the selector
-    for (let i = 1; i <= fileCount; i++){
-        let option = "Round" + i;
+    for (let i = 0; i < fileCount; i++){
+        let option = fileListArray[i].replace(/\.[^/.]+$/, "");
         $('#RoundSelector').append(`<option value="${option}">${option} </option>`);
     }
 

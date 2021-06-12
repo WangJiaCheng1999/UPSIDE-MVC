@@ -26,24 +26,23 @@ function aveAccuracyCal(values) {
 
 //Get the Average time used in each round
 function getAveTimeUseMap(allData) {
-    let round = 1;
+
     let aveTimeUseMap = new Map();
-    
+    console.log(allData.entries());
     for(value of allData.values()) {
         let timeUseArray = [];
         for (let m of value) {
             timeUseArray.push(m.get("TimeUse"));
         }
-        aveTimeUseMap.set("Round" + round, aveCal(timeUseArray));
-
-        round++;
+        aveTimeUseMap.set(getKeyByValue(allData,value), aveCal(timeUseArray));
+        
     }
     return aveTimeUseMap;
 }
 
 //Get the Accuracy in each round
 function getAveAccuracyMap(allData) {
-    let round = 1;
+
     let aveAccuracyMap = new Map();
 
     for (value of allData.values()) {
@@ -51,8 +50,8 @@ function getAveAccuracyMap(allData) {
         for (let m of value) {
             accuracyArray.push(m.get("Success"));
         }
-        aveAccuracyMap.set("Round" + round, aveAccuracyCal(accuracyArray));
-        round++;
+        aveAccuracyMap.set(getKeyByValue(allData,value), aveAccuracyCal(accuracyArray));
+
     }
     
     return aveAccuracyMap;
@@ -207,12 +206,20 @@ function getImageAccuracyMap(allData){
 
 //Get one round's whole data, this function will return a array that contains 10 maps
 function getSingleRoundData(round,allData){
-    round = "Round"+round;
     return allData.get(round);
 }
+//Get key by value in a map
+function getKeyByValue(object, value) {
+    for (let key of object.keys()) {
+        if(object.get(key) === value){
+            return key;
+        }
+    }
+}
+
 
 //Get JSON Data from root and return the data in a Map
-function getAllData(TotalRound) {
+function getAllData(TotalRound,fileList) {
     let dataList = new Map();
     let localHost = window.location.protocol + "//"+window.location.host;
 
@@ -220,11 +227,11 @@ function getAllData(TotalRound) {
     for (let i = 1; i < TotalRound + 1; i++) {
         $.ajax({
             type: "GET",
-            url: localHost+"/JData/Round" + i + ".json",
+            url: localHost+"/JData/"+fileList[i-1],
             cache: false,
             async: false,
             success: function (data) {
-                let Round = "Round" + i;
+                //let Round = "Round" + i;
                 let roundsInfo = [];
                 for (let j = 0; j < data.length; j++) {
                     let singleRoundInfo = new Map();
@@ -235,14 +242,15 @@ function getAllData(TotalRound) {
                     singleRoundInfo.set("OverTime", data[j].OverTime);
                     roundsInfo.push(singleRoundInfo);
                 }
-                dataList.set(Round, roundsInfo);
+
+                dataList.set(fileList[i-1].replace(/\.[^/.]+$/, ""), roundsInfo);
             },
             error: function () {
                 console.log("JSON data not found." + this.url);
             }
         });
     }
-    
+    console.log(dataList);
     return dataList;
 }
 

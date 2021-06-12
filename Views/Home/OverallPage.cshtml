@@ -31,9 +31,10 @@
 
 <script>
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");
+    let fileListArray = "@FileCounter.GetFiles("wwwroot/JData")".split(",");
     
     //All data from the JSON files
-    let allData = getAllData(fileCount);
+    let allData = getAllData(fileCount,fileListArray);
     
     //Maps that save each round's different types of experiment data
     let aveTimeUse = getAveTimeUseMap(allData);
@@ -43,16 +44,8 @@
     let imageCount = getOverallImageType(allData);
     let imageAccuracy= getOverallImageAccuracy(allData);
     
-    // console.log(allData);
-    // console.log(aveTimeUse);
-    // console.log(aveAccuracy);
-    // console.log(imageTypeSummary);
     console.log(imageCount);
     console.log(imageAccuracy);
-
-    
- // createHorizontalBarchart("svg",750,750,0,0,aveTimeUse,"Accuracy");
-    //createInteractivePieChart("#my_dataviz",700,700,aveTimeUse);
     
     //Initial visualization
     dataViz("Average Time Use", "Bar Chart");
