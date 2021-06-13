@@ -59,7 +59,7 @@
     "Round": 8,
     "Success": false,
     "OverTime": false,
-    "TimeUse": 36,
+    "TimeUse": 336,
     "ImageType": "Global",
     "ImageDetail": "O_from_S"
   },
@@ -75,7 +75,7 @@
     "Round": 10,
     "Success": false,
     "OverTime": false,
-    "TimeUse": 18,
+    "TimeUse": 218,
     "ImageType": "Global",
     "ImageDetail": "O_from_S"
   }

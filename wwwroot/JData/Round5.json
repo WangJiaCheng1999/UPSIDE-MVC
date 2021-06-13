@@ -4,7 +4,7 @@
     "Round": 1,
     "Success": false,
     "OverTime": false,
-    "TimeUse": 868,
+    "TimeUse": 256,
     "ImageType": "Local",
     "ImageDetail": "T_from_H"
   },
@@ -12,7 +12,7 @@
     "Round": 2,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 501,
+    "TimeUse": 389,
     "ImageType": "Local",
     "ImageDetail": "T_from_O"
   },
@@ -20,7 +20,7 @@
     "Round": 3,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 631,
+    "TimeUse": 531,
     "ImageType": "Neither",
     "ImageDetail": "Z_from_S"
   },
@@ -28,7 +28,7 @@
     "Round": 4,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 759,
+    "TimeUse": 959,
     "ImageType": "Neither",
     "ImageDetail": "T_from_S"
   },
@@ -36,8 +36,8 @@
     "Round": 5,
     "Success": true,
     "OverTime": false,
-    "TimeUse": 463,
-    "ImageType": "Local",
+    "TimeUse": 263,
+    "ImageType": "Neither",
     "ImageDetail": "Z_from_O"
   }
 ]

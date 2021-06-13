@@ -65,15 +65,8 @@
             //append text for arc
             arcs.append('text')
                 .attr('transform', function (d, i) {
-                    var x10 = arc.centroid(d)[0] * 2.5;
-                    var y10 = arc.centroid(d)[1] * 2.5;
-                    if (i === 4) {
-                        return 'translate(' + (x10 * 1.2) + ', ' + (y10 * 1.2) + ')';
-                    } else if (i === 3) {
-                        return 'translate(' + (x10 - 40) + ', ' + y10 + ')';
-                    } else if (i === 5) {
-                        return 'translate(' + (x10 + 40) + ', ' + y10 + ')';
-                    }
+                    var x10 = arc.centroid(d)[0] * 2.5 + width /10;
+                    var y10 = arc.centroid(d)[1] * 2.5 - height/100;
                     return 'translate(' + x10 + ', ' + y10 + ')';
                 })
                 .attr('text-anchor', 'middle')
@@ -92,16 +85,10 @@
                 .attr('x1', function (d) { return arc.centroid(d)[0] * 1.65; })
                 .attr('y1', function (d) { return arc.centroid(d)[1] * 1.65; })
                 .attr('x2', function (d, i) {
-                    if (i === 4) {
-                        return arc.centroid(d)[0] * 3.2;
-                    }
-                    return arc.centroid(d)[0] * 2.5;
+                    return arc.centroid(d)[0] * 2.1;
                 })
                 .attr('y2', function (d, i) {
-                    if (i === 4) {
-                        return arc.centroid(d)[1] * 3.2;
-                    }
-                    return arc.centroid(d)[1] * 2.5;
+                    return arc.centroid(d)[1] * 2.1;
                 });
         });
     }
@@ -126,18 +113,22 @@
             });
 
             // get X data
-            var Xdatas = data_file.map(function (d) {
+            var x_value = data_file.map(function (d) {
                 return d.Round;
             });
 
             // get Y data
-            var values = data_file.map(function (d) {
+            var y_values = data_file.map(function (d) {
                 return d.TimeUse;
             });
 
             // create xScale & yScale
-            var xScale = d3.scaleBand().domain(Xdatas).rangeRound([0, in_width]).padding(0.1),
-                yScale = d3.scaleLinear().domain([0, d3.max(values)]).rangeRound([in_height, 0]);
+            var xScale = d3.scaleBand()
+                .domain(x_value).rangeRound([0, in_width])
+                .padding(0.1);
+            var yScale = d3.scaleLinear()
+                .domain([0, d3.max(y_values)])
+                .rangeRound([in_height, 0]);
 
             // a svg with given size
             var svg_bar = d3.select(svg_id)
@@ -183,9 +174,10 @@
                 .delay(function (d, i) {
                     return i * 200;
                 })
-                .duration(2000)
+                //different duration time from text to show the beating independently
+                .duration(1500)
+                //BounceIn effect
                 .ease(d3.easeBounceIn)
-
                 //animation finish
                 .attr('y', function (d) {
                     return yScale(d.TimeUse);
@@ -209,7 +201,7 @@
                 })
                 .attr("height", function (d) {
                     return 0;
-                })
+                 })
                 .transition()
                 .delay(function (d, i) {
                     return i * 200;
@@ -217,13 +209,12 @@
                 .duration(1000)
                 //use ease to show the bonce effect
                 .ease(d3.easeBounceIn)
-
                 //animation finish
-
                 .attr('y', function (d) {
                     return yScale(d.TimeUse);
                 })
-                .attr('dx', xScale.bandwidth() / 2 + 10)        //+10 make text middle
+                //'dx' + 10 make text middle
+                .attr('dx', xScale.bandwidth() / 2 + 10)
                 .attr('dy', 20)
                 .attr('text-anchor', 'middle')
                 .text(function (d) {

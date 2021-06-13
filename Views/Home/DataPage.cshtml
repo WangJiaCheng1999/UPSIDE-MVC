@@ -39,12 +39,12 @@
 <script>
 
     let fileCount = @FileCounter.GetFilesCount("wwwroot/JData");        //file count
-    let fileListArray = "@FileCounter.GetFiles("wwwroot/JData")".split(",");
+    let fileListArray = "@FileCounter.GetFiles("wwwroot/JData")".split(",");    //get file
     let roundSelected = 0;                                              //initial round
 
-    var svg10 = d3.select('#svg10');                                    //bar chart
-    var svg20 = d3.select('#svg20');                                    //pie chart
-    var svg30 = d3.select('#svg30');                                    //sort bar chart
+    var svg10 = d3.select('#svg10');                                    //svg for bar chart
+    var svg20 = d3.select('#svg20');                                    //svg for pie chart
+    var svg30 = d3.select('#svg30');                                    //svg for sortable bar chart
 
     var width10 = +svg10.attr('width');                                 //width of bar chart
     var height10 = +svg10.attr('height');                               //height of bar chart
@@ -53,15 +53,14 @@
     var width30 = +svg30.attr('width');                                 //width of sortable bar chart
     var height30 = +svg30.attr('height');                               //height of sortable bar chart
 
-    var bar_margin = { top: 10, right: 50, bottom: 30, left: 60 };//margin of bar chart
-
+    var bar_margin = { top: 10, right: 50, bottom: 30, left: 60 };      //margin of bar chart
     var sortbar_margin = { top: 20, right: 30, bottom: 30, left: 50 };  //margin of sortable bar chart
 
     var pie_item1 = "Local";                                            //show in pie chart
     var pie_item2 = "Global";
     var pie_item3 = "Neither";
 
-    var bottomText = "Time Used";                                       //show in sort bar chart
+    var bottomText = "Time Used";                                       //show in sortable bar chart
     var topText = "Speed Ranking";
 
 
@@ -78,19 +77,19 @@
         let options = $("#RoundSelector option:selected");
         roundSelected = options.val() + ".json";
 
-        //Clear svg and show pie chart
+        //Clear svg and refresh pie chart
         if ($("#svg20").html() !== null) {
             $("#svg20").html("");
         }
         PieInit(width20, height20, pie_item1, pie_item2, pie_item3, "/JData/" + roundSelected, "#svg20");
 
-        //Clear svg and show bar chart
+        //Clear svg and refresh bar chart
         if ($("#svg10").html() !== null) {
             $("#svg10").html("");
         }
         BarInit(width10, height10, bar_margin, "/JData/" + roundSelected, "#svg10");
 
-        //Clear svg and show sortable bar chart
+        //Clear svg and refresh sortable bar chart
         if ($("#svg30").html() !== null) {
             $("#svg30").html("");
         }
@@ -105,7 +104,6 @@
     var filename = "/JData/" + roundSelected + ".json";
 
     //initial pie chart
-
     PieInit(width20, height20, pie_item1, pie_item2, pie_item3, filename, "#svg20");
 
     //initial bar chart
