@@ -7,5 +7,6 @@ namespace MvcTest.Models
 {
     public class DataFromSQL
     {
+
     }
 }

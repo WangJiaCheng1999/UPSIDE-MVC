@@ -16,10 +16,10 @@ namespace MvcTest.Controllers
 {
     public class HomeController : Controller
     {
-       
+
         public IActionResult Index()
         {
-           
+
             return View();
         }
         public IActionResult DataPage()
@@ -58,6 +58,7 @@ namespace MvcTest.Controllers
             return View(model);
 
         }
+
         public HomeController(IFileProvider fileProvider)
         {
             this.fileProvider = fileProvider;
